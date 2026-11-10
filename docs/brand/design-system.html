@@ -274,6 +274,7 @@
         <ul>
           <li>Nada de hex crudo fuera de <code>app/globals.css</code> (los bloques <code>:root</code> / <code>@media (prefers-color-scheme: dark)</code> / <code>[data-theme]</code>) y de esta página</li>
           <li>Cualquier componente nuevo consume <code>var(--token)</code>, nunca un literal</li>
+          <li><code>--accent</code> es solo para fondos, puntos y bordes — <b>nunca</b> como color de texto de un enlace sobre <code>bg</code>/<code>bg-alt</code>. Como texto da ~1.5:1 de contraste en claro y ~3.3:1 en oscuro, por debajo del 4.5:1 que pide WCAG AA. Los enlaces usan <code>fg</code> + subrayado (ver <code>.dataset-source a</code>, <code>.terminal-note a</code>, <code>.roadmap-cta a</code> en <code>app/globals.css</code>)</li>
         </ul>
       </div>
     </section>
@@ -359,7 +360,7 @@
           </div>
           <p>Códigos DIVIPOLA y centroides de los 1.122 municipios, con normalización de nombres.</p>
           <div class="row"><span class="pill">1.122 filas</span><span class="pill">parquet · csv</span><span class="pill">Abierta</span></div>
-          <p style="font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem;">Fuente: <span style="color: var(--accent); font-weight: 600;">DANE</span><br>Actualizado: hace 3 días</p>
+          <p style="font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem;">Fuente: <span style="color: var(--fg); text-decoration: underline;">DANE</span><br>Actualizado: hace 3 días</p>
         </div>
         <div class="dataset-card">
           <div>
@@ -368,7 +369,7 @@
           </div>
           <p>Mediciones horarias de PM2.5 y PM10 por estación.</p>
           <div class="row"><span class="pill">~4.2M filas</span><span class="pill">parquet</span><span class="pill">Abierta</span></div>
-          <p style="font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem;">Fuente: <span style="color: var(--accent); font-weight: 600;">IDEAM</span><br>Actualizado: hace 3 días</p>
+          <p style="font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem;">Fuente: <span style="color: var(--fg); text-decoration: underline;">IDEAM</span><br>Actualizado: hace 3 días</p>
         </div>
       </div>
     </section>

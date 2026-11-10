@@ -180,8 +180,8 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 .terminal .gold { color: var(--terminal-gold); }
 .terminal pre { margin: 0; white-space: pre; }
 .terminal-note { font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.75rem; }
-.terminal-note a { color: var(--accent); text-decoration: none; }
-.terminal-note a:hover { text-decoration: underline; }
+.terminal-note a { color: var(--fg); text-decoration: underline; }
+.terminal-note a:hover { text-decoration: none; }
 
 /* ---------- Catalog ---------- */
 .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; }
@@ -210,7 +210,8 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
   padding: 0.25rem 0.65rem; color: var(--fg-muted); text-decoration: none;
 }
 .dataset-source { font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem; }
-.dataset-source a { color: var(--accent); text-decoration: none; }
+.dataset-source a { color: var(--fg); text-decoration: underline; }
+.dataset-source a:hover { text-decoration: none; }
 
 /* ---------- Roadmap ---------- */
 .roadmap-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
@@ -227,8 +228,8 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 .roadmap-table-wrap { overflow-x: auto; }
 
 .roadmap-cta { margin: 1.4rem 0 0; font-size: 0.92rem; color: var(--fg-muted); }
-.roadmap-cta a { color: var(--accent); text-decoration: none; font-weight: 600; }
-.roadmap-cta a:hover { text-decoration: underline; }
+.roadmap-cta a { color: var(--fg); text-decoration: underline; font-weight: 600; }
+.roadmap-cta a:hover { text-decoration: none; }
 
 /* ---------- Contribute ---------- */
 .contribute-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-bottom: 1.4rem; }
@@ -260,7 +261,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
   color: var(--fg); font-weight: 600;
 }
 .foot-col a { font-size: 0.86rem; color: var(--fg-muted); text-decoration: none; }
-.foot-col a:hover { color: var(--accent); }
+.foot-col a:hover { color: var(--fg); text-decoration: underline; }
 .foot-bottom {
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem;
   padding-top: 1.4rem; font-size: 0.82rem; color: var(--fg-muted);
