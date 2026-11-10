@@ -100,6 +100,24 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 .nav-links a:hover { color: var(--fg); }
 .nav-github { display: inline-flex; align-items: center; gap: 0.4rem; }
 .nav-github svg { width: 16px; height: 16px; }
+.nav-hamburger { display: none; flex-shrink: 0; }
+
+.nav-drawer {
+  position: fixed; inset: 0; z-index: 50; background: var(--bg);
+  display: flex; flex-direction: column; padding: 1.3rem;
+}
+.nav-drawer-header { display: flex; align-items: center; justify-content: space-between; }
+.nav-drawer-title { font-family: Fraunces, serif; font-style: italic; font-weight: 560; font-size: 1.1rem; }
+.nav-drawer-links { display: flex; flex-direction: column; margin-top: 1.4rem; }
+.nav-drawer-links a {
+  padding: 1rem 0.2rem; font-size: 1.1rem; color: var(--fg); text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 680px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: inline-flex; }
+}
 
 /* ---------- Hero ---------- */
 .hero { padding-block: 3.5rem 4.5rem; }
