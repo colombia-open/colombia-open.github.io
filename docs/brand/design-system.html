@@ -96,10 +96,13 @@
   .dataset-card .slug { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--fg-muted); }
   .dataset-card p { color: var(--fg-muted); font-size: 0.92rem; }
 
-  /* status dots (mirror of .status-dot) */
-  .status-dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; margin-right: 0.45rem; }
-  .status-dot.done { background: var(--accent); }
-  .status-dot.pending { background: var(--fg-muted); opacity: 0.55; }
+  /* roadmap restricted-license badge (mirror of .roadmap-restricted) */
+  .restricted-pill {
+    display: inline-flex; margin-left: 0.6rem;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+    color: var(--alert); border: 1px solid var(--alert); border-radius: 999px;
+    padding: 0.15rem 0.55rem; white-space: nowrap;
+  }
 
   /* terminal (always dark, theme-invariant) */
   .terminal {
@@ -274,7 +277,7 @@
         <ul>
           <li>Nada de hex crudo fuera de <code>app/globals.css</code> (los bloques <code>:root</code> / <code>@media (prefers-color-scheme: dark)</code> / <code>[data-theme]</code>) y de esta página</li>
           <li>Cualquier componente nuevo consume <code>var(--token)</code>, nunca un literal</li>
-          <li><code>--accent</code> es solo para fondos, puntos y bordes — <b>nunca</b> como color de texto de un enlace sobre <code>bg</code>/<code>bg-alt</code>. Como texto da ~1.5:1 de contraste en claro y ~3.3:1 en oscuro, por debajo del 4.5:1 que pide WCAG AA. Los enlaces usan <code>fg</code> + subrayado (ver <code>.dataset-source a</code>, <code>.terminal-note a</code>, <code>.roadmap-cta a</code> en <code>app/globals.css</code>)</li>
+          <li><code>--accent</code> es solo para fondos, puntos y bordes — <b>nunca</b> como color de texto de un enlace sobre <code>bg</code>/<code>bg-alt</code>. Como texto da ~1.5:1 de contraste en claro y ~3.3:1 en oscuro, por debajo del 4.5:1 que pide WCAG AA. Los enlaces usan <code>fg</code> + subrayado (ver <code>.catalog-table a</code>, <code>.catalog-list-meta a</code>, <code>.terminal-note a</code> en <code>app/globals.css</code>)</li>
         </ul>
       </div>
     </section>
@@ -332,17 +335,16 @@
     <!-- PILLS -->
     <section class="ds" id="pills">
       <h2 class="display">Pills y estados</h2>
-      <p class="sub">La pill es neutra (metadata de dataset: filas, formato, licencia). El estado del roadmap usa un punto de color, nunca una pill de color — <code>--accent</code> solo significa "implementada".</p>
+      <p class="sub">La pill es neutra (metadata de dataset: filas, formato, licencia). El roadmap ya no muestra estado — un dominio implementado deja de aparecer ahí y pasa al Catálogo; lo único que vale la pena señalar ahí es cuando una fuente pendiente tiene licencia restringida, con <code>--alert</code>.</p>
       <div class="grid g2">
         <div class="card">
           <h3 style="margin-top: 0;">Pill · metadata</h3>
           <div class="row"><span class="pill">1.122 filas</span><span class="pill">parquet · csv</span><span class="pill">Abierta</span></div>
         </div>
         <div class="card">
-          <h3 style="margin-top: 0;">Status dot · roadmap</h3>
-          <div class="row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
-            <span><span class="status-dot done"></span>Implementada</span>
-            <span><span class="status-dot pending"></span>En desarrollo / Pendiente</span>
+          <h3 style="margin-top: 0;">Roadmap · licencia restringida</h3>
+          <div class="row">
+            <span>DANE — microdatos<span class="restricted-pill">Licencia restringida</span></span>
           </div>
         </div>
       </div>
@@ -351,7 +353,7 @@
     <!-- CARDS -->
     <section class="ds" id="cards">
       <h2 class="display">Tarjeta de dataset</h2>
-      <p class="sub">Espejo de <code>components/Catalog.tsx</code> — toda tarjeta real lleva su fuente y licencia a la vista, nunca solo el dato.</p>
+      <p class="sub">El catálogo de escritorio es una tabla con buscador y facetas, no una grilla de tarjetas — no escala bien a medida que crece el número de datasets. <code>.dataset-card</code> sigue vivo en dos lugares: la fila compacta del catálogo en mobile y las tarjetas de <code>components/Contribute.tsx</code>. Toda referencia a un dataset real lleva su fuente a la vista, nunca solo el dato.</p>
       <div class="grid g2">
         <div class="dataset-card">
           <div>

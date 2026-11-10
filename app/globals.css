@@ -245,14 +245,29 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 }
 .roadmap-table td { padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 .roadmap-table tr:last-child td { border-bottom: none; }
-.status-dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; margin-right: 0.45rem; }
-.status-dot.done { background: var(--accent); }
-.status-dot.pending { background: var(--fg-muted); opacity: 0.55; }
 .roadmap-table-wrap { overflow-x: auto; }
+.roadmap-restricted {
+  display: inline-flex; margin-left: 0.6rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  color: var(--alert); border: 1px solid var(--alert); border-radius: 999px;
+  padding: 0.15rem 0.55rem; white-space: nowrap;
+}
 
-.roadmap-cta { margin: 1.4rem 0 0; font-size: 0.92rem; color: var(--fg-muted); }
-.roadmap-cta a { color: var(--fg); text-decoration: underline; font-weight: 600; }
-.roadmap-cta a:hover { text-decoration: none; }
+.roadmap-cta-card {
+  margin-top: 1.6rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.6rem 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+}
+.roadmap-cta-card h3 { font-size: 1.4rem; margin: 0.3rem 0 0.5rem; max-width: 36ch; }
+.roadmap-cta-card > div > p:last-child { margin: 0; color: var(--fg-muted); font-size: 0.92rem; max-width: 42ch; }
+.roadmap-cta-card .btn { flex-shrink: 0; }
 
 /* ---------- Contribute ---------- */
 .contribute-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-bottom: 1.4rem; }

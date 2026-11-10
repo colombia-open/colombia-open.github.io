@@ -135,6 +135,10 @@ export function buildCatalogGroups(
     .filter((g) => g.entries.length > 0);
 }
 
+// El roadmap ya no repite los dominios "Implementada": ese estado se ve
+// arriba, en el Catálogo (tabla de búsqueda). Aquí solo queda lo pendiente,
+// sin columna de estado — "restricted" es lo único que vale la pena
+// distinguir visualmente, porque cambia si el dato se puede usar libremente.
 export function buildRoadmapRows(
   catalog: DatasetCatalog,
   roadmap: Roadmap,
@@ -142,9 +146,14 @@ export function buildRoadmapRows(
 ): RoadmapDisplayRow[] {
   const published = new Map(catalog.datasets.map((e) => [e.dataset, e]));
 
-  return roadmap.filas.map((fila) => {
+  const rows = roadmap.filas.map((fila) => {
     if (!("datasets" in fila)) {
-      return { dominio: fila.dominio, fuente: fila.fuente, done: false, estado: fila.estado };
+      return {
+        dominio: fila.dominio,
+        fuente: fila.fuente,
+        done: false,
+        restricted: fila.estado.toLowerCase().includes("restringida"),
+      };
     }
     const unknown = fila.datasets.filter((d) => !(d in registry));
     if (unknown.length > 0) {
@@ -154,9 +163,13 @@ export function buildRoadmapRows(
     if (allPublished) {
       const first = fila.datasets[0];
       const fuente = published.get(first)?.source_name ?? registry[first].source_name;
-      return { dominio: fila.dominio, fuente, done: true, estado: "Implementada" };
+      return { dominio: fila.dominio, fuente, done: true, restricted: false };
     }
     const fuente = registry[fila.datasets[0]].source_name;
-    return { dominio: fila.dominio, fuente, done: false, estado: "En desarrollo" };
+    return { dominio: fila.dominio, fuente, done: false, restricted: false };
   });
+
+  return rows
+    .filter((row) => !row.done)
+    .map(({ dominio, fuente, restricted }) => ({ dominio, fuente, restricted }));
 }

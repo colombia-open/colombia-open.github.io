@@ -71,6 +71,5 @@ export interface CatalogGroup {
 export interface RoadmapDisplayRow {
   dominio: string;
   fuente: string;
-  done: boolean;
-  estado: string;
+  restricted: boolean;
 }

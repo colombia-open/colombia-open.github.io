@@ -1,13 +1,14 @@
 import type { RoadmapDisplayRow } from "@/lib/types";
 
+const ISSUE_URL = "https://github.com/davidcasr/colombia-open/issues/new?template=nueva-fuente.yml";
+
 export function Roadmap({ rows }: { rows: RoadmapDisplayRow[] }) {
   return (
     <section className="band roadmap" id="roadmap">
       <div className="wrap">
         <h2>Roadmap</h2>
         <p className="intro">
-          Crece una fuente a la vez, de punta a punta. Esta tabla es el mapa completo:
-          implementadas y por venir.
+          Lo ya publicado está arriba, en el Catálogo. Acá solo lo que falta por incorporar.
         </p>
         <div className="roadmap-table-wrap">
           <table className="roadmap-table">
@@ -15,34 +16,32 @@ export function Roadmap({ rows }: { rows: RoadmapDisplayRow[] }) {
               <tr>
                 <th>Dominio</th>
                 <th>Fuente oficial</th>
-                <th>Estado</th>
               </tr>
             </thead>
             <tbody>
               {rows.map((row) => (
                 <tr key={row.dominio}>
                   <td>{row.dominio}</td>
-                  <td>{row.fuente}</td>
                   <td>
-                    <span className={`status-dot ${row.done ? "done" : "pending"}`} />
-                    {row.estado}
+                    {row.fuente}
+                    {row.restricted && <span className="roadmap-restricted">Licencia restringida</span>}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="roadmap-cta">
-          ¿Conoces una fuente pública que falta?{" "}
-          <a
-            href="https://github.com/davidcasr/colombia-open/issues/new?template=nueva-fuente.yml"
-            target="_blank"
-            rel="noopener"
-          >
-            Propónla en GitHub
+
+        <div className="roadmap-cta-card">
+          <div>
+            <p className="eyebrow">¿Falta algo?</p>
+            <h3>¿Conoces una fuente pública que no está aquí?</h3>
+            <p>Con su endpoint verificable y licencia clara, entra directo al roadmap.</p>
+          </div>
+          <a className="btn btn-primary" href={ISSUE_URL} target="_blank" rel="noopener">
+            Proponer fuente en GitHub
           </a>
-          .
-        </p>
+        </div>
       </div>
     </section>
   );
