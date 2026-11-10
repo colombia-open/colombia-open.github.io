@@ -51,9 +51,9 @@ npm run lint      # eslint
    su lugar. Un build fallido deja el sitio anterior en línea; eso es
    preferible a publicar un catálogo inventado o desactualizado.
 3. **Los tokens de marca (`app/globals.css`) deben mantenerse en sync con
-   `docs/brand/design-system.md`** del repo de la librería — ese doc es
-   la fuente de verdad del diseño, no este CSS. Si cambia uno, cambia el
-   otro.
+   `docs/brand/design-system.md`** (de este mismo repo) — ese doc es la
+   fuente de verdad del diseño, no este CSS. Si cambia uno, cambia el
+   otro en el mismo PR. La librería no tiene docs de marca.
 4. **Nunca remover el link a la librería ni a la fuente oficial de cada
    dataset** en las tarjetas del catálogo — es lo que hace auditable la
    procedencia del dato, igual que en la librería.

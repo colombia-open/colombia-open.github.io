@@ -1,18 +1,21 @@
 # Marca y diseño
 
 Los tokens de marca de este sitio (`app/globals.css`, bloque `:root`) son
-una copia de `docs/brand/design-system.md` del repo de la librería
-(`davidcasr/colombia-open`) — ese doc es la fuente de verdad, no este
-CSS. Si cambia uno, cambia el otro en el mismo PR; no diverjan.
+la implementación de `docs/brand/design-system.md` **de este mismo
+repo** — ese doc es la fuente de verdad. Si cambia uno, cambia el otro en
+el mismo PR; no diverjan.
+
+La librería ([davidcasr/colombia-open](https://github.com/davidcasr/colombia-open))
+no tiene ningún doc ni asset de marca — todo esto vive solo aquí.
 
 Reglas:
 
 - No introduzcas un color, fuente o radio nuevo sin que primero exista en
-  `docs/brand/design-system.md` de la librería.
+  `docs/brand/design-system.md`.
 - El modo oscuro se controla con `data-theme` en `<html>` (ver
   `components/ThemeToggle.tsx`) + `prefers-color-scheme` como default —
   no agregues un segundo mecanismo de dark mode.
-- Las marcas SVG (`components/BrandMark.tsx`, `public/brand/*.svg`) deben
-  ser idénticas a las del repo de la librería (`site/assets/brand/` ahí,
-  mientras exista; después de la migración completa, ese será el único
-  lugar donde vivan).
+- Las marcas SVG viven en dos formas que deben mantenerse idénticas:
+  `components/BrandMark.tsx` (inline, para color dinámico vía
+  `var(--token)`) y `public/brand/*.svg` (archivos estáticos, para
+  favicon/OG). Si cambia una, cambia la otra.
