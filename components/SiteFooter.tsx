@@ -42,8 +42,8 @@ export function SiteFooter() {
         <div className="foot-bottom">
           <span>colombia-open · cada dataset conserva la licencia de su fuente original</span>
           <span>
-            Hecho por <a href="https://github.com/davidcasr">David Castro</a> ·{" "}
-            <a href="https://davidcasr.com/">@davidcasr</a>
+            Hecho por <a href="https://davidcasr.com/">David Castro</a> ·{" "}
+            <a href="https://github.com/davidcasr">@davidcasr</a>
           </span>
         </div>
       </div>
