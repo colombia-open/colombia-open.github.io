@@ -187,11 +187,11 @@ export function Catalog({ groups }: { groups: CatalogGroup[] }) {
                 <thead>
                   <tr>
                     <th>Dataset</th>
-                    <th>Grupo</th>
-                    <th className="num">Filas</th>
-                    <th>Formato</th>
-                    <th>Fuente</th>
-                    <th>Actualizado</th>
+                    <th className="nowrap">Grupo</th>
+                    <th className="num nowrap">Filas</th>
+                    <th className="nowrap">Formato</th>
+                    <th className="nowrap">Fuente</th>
+                    <th className="nowrap">Actualizado</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -201,13 +201,13 @@ export function Catalog({ groups }: { groups: CatalogGroup[] }) {
                         <div className="catalog-row-title">{r.titulo}</div>
                         <div className="dataset-slug">{r.entry.dataset}</div>
                       </td>
-                      <td>{r.grupo}</td>
-                      <td className="num">{formatCount(r.entry.record_count)}</td>
-                      <td>{formatsOf(r.entry).join(" · ") || "—"}</td>
-                      <td>
+                      <td className="nowrap">{r.grupo}</td>
+                      <td className="num nowrap">{formatCount(r.entry.record_count)}</td>
+                      <td className="nowrap">{formatsOf(r.entry).join(" · ") || "—"}</td>
+                      <td className="nowrap">
                         <SourceLink entry={r.entry} />
                       </td>
-                      <td className="note">{formatDate(r.entry.refreshed_at_utc)}</td>
+                      <td className="note nowrap">{formatDate(r.entry.refreshed_at_utc)}</td>
                     </tr>
                   ))}
                 </tbody>

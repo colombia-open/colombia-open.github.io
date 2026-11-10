@@ -162,6 +162,15 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
   padding: 0.25rem 0.65rem; color: var(--fg-muted); text-decoration: none;
 }
 
+.chip {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.78rem;
+  border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1rem;
+  color: var(--fg-muted); background: var(--bg-alt); cursor: pointer; white-space: nowrap;
+}
+.chip:hover { border-color: var(--accent); color: var(--fg); }
+.note { font-size: 0.78rem; color: var(--fg-muted); margin: 0; }
+.nowrap { white-space: nowrap; }
+
 .catalog-toolbar { display: flex; gap: 0.6rem; margin-bottom: 1.3rem; }
 .catalog-search {
   flex: 1; min-width: 0; padding: 0.65rem 0.8rem; border-radius: 10px;
@@ -178,8 +187,8 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 
 .catalog-results { flex: 1; min-width: 0; }
 .catalog-sort { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; margin-bottom: 0.9rem; }
-.catalog-table-wrap { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
-.catalog-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+.catalog-table-wrap { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 16px; overflow-x: auto; }
+.catalog-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 0.86rem; }
 .catalog-table th {
   text-align: left; padding: 0.75rem 1rem; font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
   letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); border-bottom: 1px solid var(--line);
