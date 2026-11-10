@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>colombia-open — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,500;1,560&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /*
+    Tokens: esta página NO tiene un pipeline de build que los genere — son
+    el mismo literal que vive en app/globals.css. Si cambia un valor aquí,
+    cambia también allá en el mismo PR (ver .claude/rules/brand.md). No hay
+    una tercera copia: esta página y app/globals.css son las dos únicas
+    fuentes, y deben decir siempre lo mismo.
+  */
+  :root {
+    --bg: #F4F1EA; --bg-alt: #FFFFFF; --fg: #1B2A4A; --fg-muted: #5B6578;
+    --accent: #C9A227; --accent-ink: #17233D; --alert: #B5542E;
+    --line: rgba(27,42,74,.14);
+    --terminal-bg: #0F1726; --terminal-fg: #D7E1F0; --terminal-muted: #6E7E9C; --terminal-gold: #D9B544;
+    --docs-ink: #15191C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100vh; }
+  nav.side {
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    border-right: 1px solid var(--line); background: var(--bg-alt);
+    padding: 28px 18px;
+  }
+  nav.side .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  nav.side .version { font-size: 12px; color: var(--fg-muted); margin: 0 0 22px 40px; font-family: "IBM Plex Mono", monospace; }
+  nav.side a { display: block; padding: 6px 10px; border-radius: 8px; color: var(--fg-muted); text-decoration: none; font-size: 13.5px; }
+  nav.side a:hover, nav.side a:focus-visible { background: var(--bg); color: var(--fg); }
+  nav.side .group { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg-muted); opacity: .7; margin: 18px 10px 4px; }
+  main { padding: 48px 56px 120px; max-width: 1080px; min-width: 0; }
+  .display { font-family: Fraunces, "Iowan Old Style", serif; font-style: italic; font-weight: 560; }
+  h1 { font-size: 42px; line-height: 1.1; margin-bottom: 12px; }
+  .lead { color: var(--fg-muted); max-width: 680px; }
+  section.ds { padding-top: 56px; }
+  section.ds > h2 { font-size: 28px; line-height: 1.2; margin-bottom: 6px; }
+  section.ds > p.sub { color: var(--fg-muted); margin-bottom: 22px; max-width: 680px; }
+  h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--fg-muted); margin: 26px 0 12px; font-weight: 600; }
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px;
+    background: var(--bg); padding: 1px 6px; border-radius: 6px; color: var(--fg); overflow-wrap: anywhere;
+  }
+  .card { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 16px; padding: 22px; }
+  .card:has(> table) { overflow-x: auto; }
+  .grid { display: grid; gap: 14px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+  /* swatches */
+  .sw { border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-alt); }
+  .sw .chip { height: 64px; }
+  .sw .meta { padding: 8px 10px; font-size: 12px; line-height: 1.4; }
+  .sw .meta b { display: block; font-weight: 600; color: var(--fg); }
+  .sw .meta span { color: var(--fg-muted); font-family: "IBM Plex Mono", monospace; }
+
+  /* rule boxes */
+  .rule { border-radius: 14px; padding: 18px 20px; border: 1px solid var(--line); background: var(--bg-alt); }
+  .rule h4 { font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .rule ul { padding-left: 18px; color: var(--fg-muted); font-size: 14px; display: flex; flex-direction: column; gap: 4px; }
+  .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; flex-shrink: 0; }
+
+  /* buttons (mirror of app/globals.css .btn) */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-family: Inter, sans-serif;
+    font-size: 0.92rem; padding: 0.65rem 1.3rem; border-radius: 10px; text-decoration: none; border: 0; cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-secondary { background: transparent; color: var(--fg); border: 1px solid var(--line); }
+
+  /* pills (mirror of .pill) */
+  .pill {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; background: var(--bg);
+    border: 1px solid var(--line); border-radius: 999px; padding: 0.25rem 0.65rem; color: var(--fg-muted); display: inline-flex;
+  }
+
+  /* dataset card (mirror of .dataset-card) */
+  .dataset-card {
+    background: var(--bg-alt); border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem 1.4rem;
+    display: flex; flex-direction: column; gap: 0.7rem;
+  }
+  .dataset-card h4 { font-weight: 600; font-size: 1.02rem; }
+  .dataset-card .slug { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--fg-muted); }
+  .dataset-card p { color: var(--fg-muted); font-size: 0.92rem; }
+
+  /* status dots (mirror of .status-dot) */
+  .status-dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; margin-right: 0.45rem; }
+  .status-dot.done { background: var(--accent); }
+  .status-dot.pending { background: var(--fg-muted); opacity: 0.55; }
+
+  /* terminal (always dark, theme-invariant) */
+  .terminal {
+    background: var(--terminal-bg); border-radius: 12px; padding: 1.2rem 1.4rem;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.86rem; color: var(--terminal-fg); overflow-x: auto;
+  }
+  .terminal .muted { color: var(--terminal-muted); }
+  .terminal .gold { color: var(--terminal-gold); }
+  .terminal pre { margin: 0; white-space: pre; }
+
+  /* theme demo */
+  .theme-demo { border-radius: 16px; border: 1px solid var(--line); padding: 24px; transition: background .2s, color .2s; }
+  .theme-demo[data-theme="dark"] {
+    background: #17233D; color: #F4F1EA;
+    --bg: #17233D; --bg-alt: #1F2E4E; --fg: #F4F1EA; --fg-muted: #AEB6C4;
+    --accent: #D9B544; --alert: #E0825A; --line: rgba(244,241,234,.14);
+  }
+  .theme-demo[data-theme="light"] {
+    background: #F4F1EA; color: #1B2A4A;
+    --bg: #F4F1EA; --bg-alt: #FFFFFF; --fg: #1B2A4A; --fg-muted: #5B6578;
+    --accent: #C9A227; --alert: #B5542E; --line: rgba(27,42,74,.14);
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--fg-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  td.mono { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    nav.side { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+    main { padding: 32px 16px 80px; }
+    .g3, .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) { .g2, .g3, .g4 { grid-template-columns: 1fr; } h1 { font-size: 32px; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="side" aria-label="Secciones">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="34" fill="#C9A227" opacity="0.16"/>
+        <line x1="40" y1="52" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+        <line x1="160" y1="44" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+        <line x1="168" y1="148" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+        <line x1="44" y1="156" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+        <line x1="98" y1="26" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+        <circle cx="40" cy="52" r="9.5" fill="#5B6578" opacity="0.75"/>
+        <circle cx="160" cy="44" r="9" fill="#5B6578" opacity="0.75"/>
+        <circle cx="168" cy="148" r="9.5" fill="#5B6578" opacity="0.75"/>
+        <circle cx="44" cy="156" r="9" fill="#5B6578" opacity="0.75"/>
+        <circle cx="98" cy="26" r="8" fill="#5B6578" opacity="0.7"/>
+        <circle cx="100" cy="100" r="17" fill="#C9A227"/>
+      </svg>
+      <span class="display" style="font-size: 20px;">colombia-open</span>
+    </div>
+    <div class="version">Design System</div>
+    <div class="group">Fundamentos</div>
+    <a href="#logomarca">Logomarca</a>
+    <a href="#paleta">Paleta</a>
+    <a href="#tipografia">Tipografía</a>
+    <a href="#temas">Temas (claro/oscuro)</a>
+    <div class="group">Componentes</div>
+    <a href="#botones">Botones</a>
+    <a href="#pills">Pills y estados</a>
+    <a href="#cards">Tarjeta de dataset</a>
+    <a href="#terminal">Terminal / código</a>
+    <div class="group">Sistema</div>
+    <a href="#voz">Voz</a>
+    <a href="#estructura">Dónde vive cada cosa</a>
+    <a href="#reglas">Reglas duras</a>
+  </nav>
+
+  <main>
+    <header>
+      <h1 class="display">colombia-open — Design System</h1>
+      <p class="lead">Fuente única de verdad de la identidad visual de <code>colombia-open.github.io</code>. Los valores de esta página son el mismo literal que <code>app/globals.css</code> — no hay un paso de build que los genere, así que si cambia uno cambia el otro en el mismo PR (ver <code>.claude/rules/brand.md</code>). Este documento gobierna solo <b>cómo se ve</b> el sitio; qué dataset existe, su conteo de filas, su licencia y su fuente nunca se decide aquí — eso sale siempre del catálogo real en build-time (ver <code>.claude/rules/data-source.md</code>).</p>
+    </header>
+
+    <!-- LOGOMARCA -->
+    <section class="ds" id="logomarca">
+      <h2 class="display">Logomarca — "constelación"</h2>
+      <p class="sub">Un punto central dorado (el dataset ya curado) con puntos grises alrededor (fuentes todavía sueltas) conectados por líneas finas. Se lee de afuera hacia el centro: cada fuente oficial empieza dispersa, con su propio formato, y converge en un único dataset validado.</p>
+      <div class="grid g3">
+        <div class="card" style="text-align: center;">
+          <svg width="96" height="96" viewBox="0 0 200 200" role="img" aria-label="Marca sobre fondo oscuro, punto central dorado" style="background: #17233D; border-radius: 16px; padding: 8px;">
+            <circle cx="100" cy="100" r="34" fill="#D9B544" opacity="0.16"/>
+            <line x1="40" y1="52" x2="100" y2="100" stroke="#AEB6C4" stroke-width="1.4" opacity="0.4"/>
+            <line x1="160" y1="44" x2="100" y2="100" stroke="#AEB6C4" stroke-width="1.4" opacity="0.4"/>
+            <line x1="168" y1="148" x2="100" y2="100" stroke="#AEB6C4" stroke-width="1.4" opacity="0.4"/>
+            <line x1="44" y1="156" x2="100" y2="100" stroke="#AEB6C4" stroke-width="1.4" opacity="0.4"/>
+            <line x1="98" y1="26" x2="100" y2="100" stroke="#AEB6C4" stroke-width="1.4" opacity="0.4"/>
+            <circle cx="40" cy="52" r="9.5" fill="#AEB6C4" opacity="0.75"/>
+            <circle cx="160" cy="44" r="9" fill="#AEB6C4" opacity="0.75"/>
+            <circle cx="168" cy="148" r="9.5" fill="#AEB6C4" opacity="0.75"/>
+            <circle cx="44" cy="156" r="9" fill="#AEB6C4" opacity="0.75"/>
+            <circle cx="98" cy="26" r="8" fill="#AEB6C4" opacity="0.7"/>
+            <circle cx="100" cy="100" r="17" fill="#D9B544"/>
+          </svg>
+          <h3>mark-gold.svg</h3><p style="font-size: 13px; color: var(--fg-muted);">Punto central dorado — para fondos oscuros/índigo</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <svg width="96" height="96" viewBox="0 0 200 200" role="img" aria-label="Marca sobre fondo claro, punto central índigo" style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 16px; padding: 8px;">
+            <circle cx="100" cy="100" r="34" fill="#17233D" opacity="0.1"/>
+            <line x1="40" y1="52" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+            <line x1="160" y1="44" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+            <line x1="168" y1="148" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+            <line x1="44" y1="156" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+            <line x1="98" y1="26" x2="100" y2="100" stroke="#5B6578" stroke-width="1.4" opacity="0.4"/>
+            <circle cx="40" cy="52" r="9.5" fill="#5B6578" opacity="0.75"/>
+            <circle cx="160" cy="44" r="9" fill="#5B6578" opacity="0.75"/>
+            <circle cx="168" cy="148" r="9.5" fill="#5B6578" opacity="0.75"/>
+            <circle cx="44" cy="156" r="9" fill="#5B6578" opacity="0.75"/>
+            <circle cx="98" cy="26" r="8" fill="#5B6578" opacity="0.7"/>
+            <circle cx="100" cy="100" r="17" fill="#17233D"/>
+          </svg>
+          <h3>mark-indigo.svg</h3><p style="font-size: 13px; color: var(--fg-muted);">Punto central índigo — para fondos claros/hueso</p>
+        </div>
+        <div class="card" style="text-align: center;">
+          <svg width="96" height="96" viewBox="0 0 200 200" role="img" aria-label="Favicon, solo el punto central" style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 16px; padding: 8px;">
+            <circle cx="100" cy="100" r="34" fill="#C9A227" opacity="0.16"/>
+            <circle cx="100" cy="100" r="17" fill="#C9A227"/>
+          </svg>
+          <h3>favicon.svg</h3><p style="font-size: 13px; color: var(--fg-muted);">32px — solo el punto central, sin los puntos dispersos</p>
+        </div>
+      </div>
+      <div class="rule" style="margin-top: 18px; border-color: rgba(201,162,39,.4);">
+        <h4><span class="dot" style="background: var(--accent);"></span>Regla dura</h4>
+        <ul>
+          <li>El punto central es la <b>única</b> señal de "dato ya consolidado" — nunca se usa ese color para otra cosa (alertas, enlaces genéricos, etc.)</li>
+          <li>El inline SVG (<code>components/BrandMark.tsx</code>) y los archivos estáticos (<code>public/brand/*.svg</code>) deben mantenerse idénticos — si cambia uno, cambia el otro</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PALETA -->
+    <section class="ds" id="paleta">
+      <h2 class="display">Paleta</h2>
+      <p class="sub"><code>--accent</code> y <code>--alert</code> nunca se mezclan: oro es siempre "dato bueno / reciente", terracota es siempre "algo falló". No hay un tercer color semántico todavía.</p>
+      <h3>Claro</h3>
+      <div class="grid g4">
+        <div class="sw"><div class="chip" style="background: #F4F1EA;"></div><div class="meta"><b>bg</b><span>#F4F1EA</span></div></div>
+        <div class="sw"><div class="chip" style="background: #FFFFFF; border-bottom: 1px solid var(--line);"></div><div class="meta"><b>bg-alt</b><span>#FFFFFF</span></div></div>
+        <div class="sw"><div class="chip" style="background: #1B2A4A;"></div><div class="meta"><b>fg</b><span>#1B2A4A</span></div></div>
+        <div class="sw"><div class="chip" style="background: #5B6578;"></div><div class="meta"><b>fg-muted</b><span>#5B6578</span></div></div>
+      </div>
+      <h3>Oscuro</h3>
+      <div class="grid g4">
+        <div class="sw"><div class="chip" style="background: #17233D;"></div><div class="meta"><b>bg</b><span>#17233D</span></div></div>
+        <div class="sw"><div class="chip" style="background: #1F2E4E;"></div><div class="meta"><b>bg-alt</b><span>#1F2E4E</span></div></div>
+        <div class="sw"><div class="chip" style="background: #F4F1EA;"></div><div class="meta"><b>fg</b><span>#F4F1EA</span></div></div>
+        <div class="sw"><div class="chip" style="background: #AEB6C4;"></div><div class="meta"><b>fg-muted</b><span>#AEB6C4</span></div></div>
+      </div>
+      <h3>Acento y alerta (claro → oscuro)</h3>
+      <div class="grid g4">
+        <div class="sw"><div class="chip" style="background: #C9A227;"></div><div class="meta"><b>accent</b><span>#C9A227 · dato consolidado</span></div></div>
+        <div class="sw"><div class="chip" style="background: #D9B544;"></div><div class="meta"><b>accent (oscuro)</b><span>#D9B544</span></div></div>
+        <div class="sw"><div class="chip" style="background: #B5542E;"></div><div class="meta"><b>alert</b><span>#B5542E · fuente caída</span></div></div>
+        <div class="sw"><div class="chip" style="background: #E0825A;"></div><div class="meta"><b>alert (oscuro)</b><span>#E0825A</span></div></div>
+      </div>
+      <h3>Terminal (invariante — siempre un panel oscuro)</h3>
+      <div class="grid g4">
+        <div class="sw"><div class="chip" style="background: #0F1726;"></div><div class="meta"><b>terminal-bg</b><span>#0F1726</span></div></div>
+        <div class="sw"><div class="chip" style="background: #D7E1F0;"></div><div class="meta"><b>terminal-fg</b><span>#D7E1F0</span></div></div>
+        <div class="sw"><div class="chip" style="background: #6E7E9C;"></div><div class="meta"><b>terminal-muted</b><span>#6E7E9C</span></div></div>
+        <div class="sw"><div class="chip" style="background: #D9B544;"></div><div class="meta"><b>terminal-gold</b><span>#D9B544</span></div></div>
+      </div>
+      <div class="rule" style="margin-top: 18px;">
+        <h4><span class="dot" style="background: var(--fg);"></span>Regla dura</h4>
+        <ul>
+          <li>Nada de hex crudo fuera de <code>app/globals.css</code> (los bloques <code>:root</code> / <code>@media (prefers-color-scheme: dark)</code> / <code>[data-theme]</code>) y de esta página</li>
+          <li>Cualquier componente nuevo consume <code>var(--token)</code>, nunca un literal</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- TIPOGRAFIA -->
+    <section class="ds" id="tipografia">
+      <h2 class="display">Tipografía</h2>
+      <p class="sub">Tres familias, nunca una cuarta. Las tres se cargan desde Google Fonts en <code>app/layout.tsx</code>.</p>
+      <div class="card">
+        <p class="display" style="font-size: 40px; line-height: 1.15;">Datos públicos de Colombia, listos para usar en Python.</p>
+        <p style="font-size: 12px; color: var(--fg-muted); margin: 6px 0 22px;">Fraunces · italic · peso 560 · display / títulos de sección</p>
+        <p style="font-size: 16px;">municipios.filter(municipios["cod_dpto"] == "05")</p>
+        <p style="font-size: 12px; color: var(--fg-muted); margin-top: 6px;">Inter · 400/500/600 · cuerpo / UI</p>
+        <p style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; margin-top: 18px;">#C9A227 · dataset: municipios · CC-BY-4.0</p>
+        <p style="font-size: 12px; color: var(--fg-muted); margin-top: 6px;">IBM Plex Mono · código / datos — hex, nombres de columna, slugs, snippets</p>
+      </div>
+    </section>
+
+    <!-- TEMAS -->
+    <section class="ds" id="temas">
+      <h2 class="display">Temas (claro/oscuro)</h2>
+      <p class="sub">El sitio respeta <code>prefers-color-scheme</code> por defecto, con un botón para forzar el tema (<code>components/ThemeToggle.tsx</code>, guardado en <code>localStorage</code>, por viewer, no compartido). Toca el botón para ver el mismo panel en los dos temas.</p>
+      <div class="theme-demo" id="theme-demo" data-theme="light">
+        <div class="row" style="justify-content: space-between;">
+          <span class="display" style="font-size: 22px; color: var(--fg);">colombia-open</span>
+          <button class="btn btn-secondary" id="theme-demo-toggle" type="button">Cambiar tema</button>
+        </div>
+        <p style="color: var(--fg-muted); margin-top: 10px; max-width: 46ch;">Los datos públicos de Colombia existen, pero cada uno en su portal y en su formato.</p>
+        <div class="row" style="margin-top: 14px;">
+          <span class="pill" style="background: var(--bg); border-color: var(--line); color: var(--fg-muted);">departamentos</span>
+          <a class="btn btn-primary" style="pointer-events: none;">Ver catálogo</a>
+        </div>
+      </div>
+      <div class="rule" style="margin-top: 18px;">
+        <h4><span class="dot" style="background: var(--fg);"></span>Regla dura</h4>
+        <ul>
+          <li>Valores claros en <code>:root</code>, valores oscuros repetidos en <code>@media (prefers-color-scheme: dark)</code> y en <code>[data-theme="dark"]</code> — nunca un color definido solo dentro de un bloque condicional</li>
+          <li>No agregues un segundo mecanismo de dark mode — todo pasa por <code>data-theme</code> en <code>&lt;html&gt;</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- BOTONES -->
+    <section class="ds" id="botones">
+      <h2 class="display">Botones</h2>
+      <p class="sub">Espejo de <code>.btn-primary</code> / <code>.btn-secondary</code> en <code>app/globals.css</code>.</p>
+      <div class="card">
+        <div class="row">
+          <a class="btn btn-primary" href="#botones">Ver catálogo</a>
+          <a class="btn btn-secondary" href="#botones">Ver en GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PILLS -->
+    <section class="ds" id="pills">
+      <h2 class="display">Pills y estados</h2>
+      <p class="sub">La pill es neutra (metadata de dataset: filas, formato, licencia). El estado del roadmap usa un punto de color, nunca una pill de color — <code>--accent</code> solo significa "implementada".</p>
+      <div class="grid g2">
+        <div class="card">
+          <h3 style="margin-top: 0;">Pill · metadata</h3>
+          <div class="row"><span class="pill">1.122 filas</span><span class="pill">parquet · csv</span><span class="pill">Abierta</span></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top: 0;">Status dot · roadmap</h3>
+          <div class="row" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+            <span><span class="status-dot done"></span>Implementada</span>
+            <span><span class="status-dot pending"></span>En desarrollo / Pendiente</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="ds" id="cards">
+      <h2 class="display">Tarjeta de dataset</h2>
+      <p class="sub">Espejo de <code>components/Catalog.tsx</code> — toda tarjeta real lleva su fuente y licencia a la vista, nunca solo el dato.</p>
+      <div class="grid g2">
+        <div class="dataset-card">
+          <div>
+            <h4>Municipios</h4>
+            <span class="slug">municipios</span>
+          </div>
+          <p>Códigos DIVIPOLA y centroides de los 1.122 municipios, con normalización de nombres.</p>
+          <div class="row"><span class="pill">1.122 filas</span><span class="pill">parquet · csv</span><span class="pill">Abierta</span></div>
+          <p style="font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem;">Fuente: <span style="color: var(--accent); font-weight: 600;">DANE</span><br>Actualizado: hace 3 días</p>
+        </div>
+        <div class="dataset-card">
+          <div>
+            <h4>Calidad del aire</h4>
+            <span class="slug">calidad_aire</span>
+          </div>
+          <p>Mediciones horarias de PM2.5 y PM10 por estación.</p>
+          <div class="row"><span class="pill">~4.2M filas</span><span class="pill">parquet</span><span class="pill">Abierta</span></div>
+          <p style="font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem;">Fuente: <span style="color: var(--accent); font-weight: 600;">IDEAM</span><br>Actualizado: hace 3 días</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TERMINAL -->
+    <section class="ds" id="terminal">
+      <h2 class="display">Terminal / código</h2>
+      <p class="sub">Panel siempre oscuro (<code>--terminal-*</code>), sin importar el tema de la página — como una terminal real.</p>
+      <div class="terminal">
+        <pre><span class="muted">$</span> pip install colombia-open
+
+<span class="gold">from</span> colombia_open <span class="gold">import</span> ColombiaOpen
+
+hub = ColombiaOpen()
+hub.load_polars(<span class="gold">"municipios"</span>)</pre>
+      </div>
+    </section>
+
+    <!-- VOZ -->
+    <section class="ds" id="voz">
+      <h2 class="display">Voz</h2>
+      <p class="sub">Calmada, precisa, nombra la fuente y la fecha de vigencia del dato — nunca promete "en vivo" cuando es un snapshot cacheado.</p>
+      <div class="grid g2">
+        <div class="rule">
+          <h4><span class="dot" style="background: var(--accent);"></span>Vocabulario ancla</h4>
+          <ul><li>fuente</li><li>vigencia</li><li>capa</li><li>procedencia</li><li>validado</li></ul>
+        </div>
+        <div class="rule" style="border-color: rgba(181,84,46,.35);">
+          <h4><span class="dot" style="background: var(--alert);"></span>Evitar</h4>
+          <ul>
+            <li>"en tiempo real" — es un snapshot cacheado, no un stream</li>
+            <li>"garantizado"</li>
+            <li>"oficial" sin matizar — colombia-open no es el DANE, es una capa encima del DANE</li>
+            <li>signos de exclamación cerca de datos o cifras</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTRUCTURA -->
+    <section class="ds" id="estructura">
+      <h2 class="display">Dónde vive cada cosa</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Archivo</th><th>Qué es</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">app/globals.css</td><td>Implementación real de los tokens — debe igualar esta página</td></tr>
+            <tr><td class="mono">app/layout.tsx</td><td>Meta de OG/Twitter, carga de fuentes de Google Fonts</td></tr>
+            <tr><td class="mono">components/BrandMark.tsx</td><td>SVG inline de la marca + ícono de GitHub, para color dinámico vía <code>var(--token)</code></td></tr>
+            <tr><td class="mono">components/ThemeToggle.tsx</td><td>Botón de modo claro/oscuro</td></tr>
+            <tr><td class="mono">public/favicon.svg</td><td>Versión reducida de la marca para el tab del navegador</td></tr>
+            <tr><td class="mono">public/og-image.png</td><td>1200×630 — vista previa al compartir la URL (Twitter/X, Slack, WhatsApp, LinkedIn)</td></tr>
+            <tr><td class="mono">public/brand/mark-gold.svg</td><td>Marca estática, punto central dorado — fondos oscuros</td></tr>
+            <tr><td class="mono">public/brand/mark-indigo.svg</td><td>Marca estática, punto central índigo — fondos claros</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 13px; color: var(--fg-muted); margin-top: 14px;"><code>og-image.png</code> no tiene pipeline automatizado todavía — si cambia el wordmark o la paleta, se regenera a mano manteniendo 1200×630.</p>
+    </section>
+
+    <!-- REGLAS -->
+    <section class="ds" id="reglas">
+      <h2 class="display">Reglas duras</h2>
+      <p class="sub">Las mismas que gobiernan el resto del sitio (<code>.claude/rules/brand.md</code>, <code>.claude/rules/data-source.md</code>) — esta página no las repite por estilo, las repite porque romperlas rompe la identidad visual o la confianza en el dato.</p>
+      <div class="grid g2">
+        <div class="rule">
+          <h4><span class="dot" style="background: var(--accent);"></span>Marca</h4>
+          <ul>
+            <li>No introduzcas un color, fuente o radio nuevo sin que primero exista en esta página</li>
+            <li>El punto central del logomark nunca se reutiliza para otra cosa</li>
+            <li><code>BrandMark.tsx</code> y <code>public/brand/*.svg</code> deben mantenerse idénticos</li>
+          </ul>
+        </div>
+        <div class="rule" style="border-color: rgba(181,84,46,.35);">
+          <h4><span class="dot" style="background: var(--alert);"></span>Datos</h4>
+          <ul>
+            <li>Nunca se hardcodea un dataset, conteo, licencia o fuente en componentes o contenido</li>
+            <li>Si el fetch del catálogo falla, el build falla — no hay fallback embebido</li>
+            <li>Nunca remover el link a la librería ni a la fuente oficial de cada dataset</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+  (function () {
+    var demo = document.getElementById("theme-demo");
+    var toggle = document.getElementById("theme-demo-toggle");
+    toggle.addEventListener("click", function () {
+      demo.setAttribute("data-theme", demo.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+  })();
+</script>
+</body>
+</html>

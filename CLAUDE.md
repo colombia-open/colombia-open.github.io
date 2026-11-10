@@ -51,8 +51,8 @@ npm run lint      # eslint
    su lugar. Un build fallido deja el sitio anterior en línea; eso es
    preferible a publicar un catálogo inventado o desactualizado.
 3. **Los tokens de marca (`app/globals.css`) deben mantenerse en sync con
-   `docs/brand/design-system.md`** (de este mismo repo) — ese doc es la
-   fuente de verdad del diseño, no este CSS. Si cambia uno, cambia el
+   `docs/brand/design-system.html`** (de este mismo repo) — esa página es
+   la fuente de verdad del diseño, no este CSS. Si cambia uno, cambia el
    otro en el mismo PR. La librería no tiene docs de marca.
 4. **Nunca remover el link a la librería ni a la fuente oficial de cada
    dataset** en las tarjetas del catálogo — es lo que hace auditable la
@@ -68,6 +68,6 @@ npm run lint      # eslint
 |---|---|
 | Entender de dónde sale el contenido | `.claude/rules/data-source.md` |
 | Agregar/reordenar una tarjeta del catálogo o una fila del roadmap | `content/catalogo.json` / `content/roadmap.json` (nunca el dato: eso lo decide la librería) |
-| Tocar diseño/marca | `.claude/rules/brand.md` + `app/globals.css` |
+| Tocar diseño/marca | `.claude/rules/brand.md` + `app/globals.css` + `docs/brand/design-system.html` |
 | Entender el pipeline de deploy | `.claude/rules/deploy.md` + `.github/workflows/deploy.yml` |
 | Agregar una sección nueva a la landing | `components/` (un componente por sección) + enlazarlo en `app/page.tsx` |

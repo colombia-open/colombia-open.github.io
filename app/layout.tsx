@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         {/* Fraunces pide un peso variable (560) fuera del set fijo que
             next/font/google expone para fuentes estáticas — se mantiene como
-            <link> manual para igualar exactamente docs/brand/design-system.md
+            <link> manual para igualar exactamente docs/brand/design-system.html
             de la librería. */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
