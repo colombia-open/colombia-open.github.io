@@ -13,9 +13,12 @@ Reglas:
 
 - No introduzcas un color, fuente o radio nuevo sin que primero exista en
   `docs/brand/design-system.html`.
-- El modo oscuro se controla con `data-theme` en `<html>` (ver
-  `components/ThemeToggle.tsx`) + `prefers-color-scheme` como default —
-  no agregues un segundo mecanismo de dark mode.
+- El sitio publica **solo modo oscuro** (decisión de producto) — los tokens
+  viven directo en `:root` de `app/globals.css`, sin `prefers-color-scheme`
+  ni `data-theme`, y no hay componente de toggle. El modo claro sigue
+  documentado en `docs/brand/design-system.html` como referencia del
+  sistema; si algún día se reintroduce un selector de tema, que viva ahí
+  primero — no agregues un segundo mecanismo de dark mode por tu cuenta.
 - Las marcas SVG viven en dos formas que deben mantenerse idénticas:
   `components/BrandMark.tsx` (inline, para color dinámico vía
   `var(--token)`) y `public/brand/*.svg` (archivos estáticos, para

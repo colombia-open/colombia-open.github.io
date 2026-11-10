@@ -3,42 +3,13 @@
   Token source of truth: docs/brand/design-system.html (HTML autocontenido,
   sin pipeline de build) de este mismo repo — mantener ambos en sync, ver
   .claude/rules/brand.md.
+
+  El sitio publica solo el tema oscuro (decisión de producto) — sin
+  prefers-color-scheme ni data-theme. El tema claro sigue documentado en
+  docs/brand/design-system.html como referencia del sistema.
 */
 
 :root {
-  --bg: #F4F1EA;
-  --bg-alt: #FFFFFF;
-  --fg: #1B2A4A;
-  --fg-muted: #5B6578;
-  --accent: #C9A227;
-  --alert: #B5542E;
-  --line: rgba(27, 42, 74, 0.14);
-  /* Theme-invariant: text on top of accent-colored chips/buttons must stay
-     dark in both themes, since --accent is a similar light gold in both. */
-  --accent-ink: #17233D;
-  /* Theme-invariant: the terminal mockup is always a dark panel, like a
-     real terminal, regardless of the page theme around it. */
-  --terminal-bg: #0F1726;
-  --terminal-fg: #D7E1F0;
-  --terminal-muted: #6E7E9C;
-  --terminal-gold: #D9B544;
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #17233D;
-    --bg-alt: #1F2E4E;
-    --fg: #F4F1EA;
-    --fg-muted: #AEB6C4;
-    --accent: #D9B544;
-    --alert: #E0825A;
-    --line: rgba(244, 241, 234, 0.14);
-    color-scheme: dark;
-  }
-}
-
-:root[data-theme="dark"] {
   --bg: #17233D;
   --bg-alt: #1F2E4E;
   --fg: #F4F1EA;
@@ -46,6 +17,15 @@
   --accent: #D9B544;
   --alert: #E0825A;
   --line: rgba(244, 241, 234, 0.14);
+  /* Theme-invariant: text on top of the accent-colored chips/buttons must
+     stay dark, since --accent is a light gold. */
+  --accent-ink: #17233D;
+  /* Theme-invariant: the terminal mockup is always this same dark panel,
+     like a real terminal, independent of --bg. */
+  --terminal-bg: #0F1726;
+  --terminal-fg: #D7E1F0;
+  --terminal-muted: #6E7E9C;
+  --terminal-gold: #D9B544;
   color-scheme: dark;
 }
 
@@ -120,29 +100,6 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 .nav-links a:hover { color: var(--fg); }
 .nav-github { display: inline-flex; align-items: center; gap: 0.4rem; }
 .nav-github svg { width: 16px; height: 16px; }
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  color: var(--fg);
-  background: var(--bg-alt);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 0;
-  cursor: pointer;
-}
-.theme-toggle:hover { border-color: var(--accent); }
-.theme-toggle svg { width: 18px; height: 18px; }
-.theme-toggle .icon-sun { display: none; }
-.theme-toggle .icon-moon { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
-}
-:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: 3.5rem 4.5rem; }
@@ -184,9 +141,6 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 .terminal-note a:hover { text-decoration: none; }
 
 /* ---------- Catalog ---------- */
-.catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.1rem; }
-.catalog-group-label { grid-column: 1 / -1; margin: 1.6rem 0 0.2rem; }
-.catalog-group-label:first-of-type { margin-top: 0; }
 .dataset-card {
   background: var(--bg-alt);
   border: 1px solid var(--line);
@@ -196,22 +150,82 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
   flex-direction: column;
   gap: 0.7rem;
 }
-.dataset-title { display: flex; flex-direction: column; gap: 0.2rem; }
 .dataset-card h3 { font-style: normal; font-weight: 600; font-size: 1.05rem; font-family: Inter, system-ui, -apple-system, sans-serif; overflow-wrap: anywhere; }
 .dataset-slug {
   font-family: "IBM Plex Mono", monospace; font-size: 0.74rem;
   color: var(--fg-muted); overflow-wrap: anywhere;
 }
 .dataset-card p { margin: 0; color: var(--fg-muted); font-size: 0.92rem; }
-.dataset-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.3rem; }
 .pill {
   font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
   background: var(--bg); border: 1px solid var(--line); border-radius: 999px;
   padding: 0.25rem 0.65rem; color: var(--fg-muted); text-decoration: none;
 }
-.dataset-source { font-size: 0.82rem; color: var(--fg-muted); margin-top: 0.4rem; }
-.dataset-source a { color: var(--fg); text-decoration: underline; }
-.dataset-source a:hover { text-decoration: none; }
+
+.catalog-toolbar { display: flex; gap: 0.6rem; margin-bottom: 1.3rem; }
+.catalog-search {
+  flex: 1; min-width: 0; padding: 0.65rem 0.8rem; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--bg-alt); color: var(--fg);
+  font-family: Inter, sans-serif; font-size: 0.86rem;
+}
+.catalog-filters-btn { display: none; flex-shrink: 0; }
+
+.catalog-layout { display: flex; gap: 2.4rem; align-items: flex-start; }
+.catalog-facets { width: 220px; flex-shrink: 0; position: sticky; top: 5.6rem; display: flex; flex-direction: column; gap: 1.3rem; }
+.catalog-facet-label { margin-bottom: 0.5rem; }
+.catalog-facet-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.catalog-facet { display: flex; align-items: center; gap: 0.5rem; font-size: 0.86rem; color: var(--fg-muted); cursor: pointer; }
+
+.catalog-results { flex: 1; min-width: 0; }
+.catalog-sort { display: flex; align-items: center; justify-content: flex-end; gap: 0.5rem; margin-bottom: 0.9rem; }
+.catalog-table-wrap { background: var(--bg-alt); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.catalog-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+.catalog-table th {
+  text-align: left; padding: 0.75rem 1rem; font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); border-bottom: 1px solid var(--line);
+}
+.catalog-table th.num { text-align: right; }
+.catalog-table td { padding: 0.85rem 1rem; vertical-align: top; border-bottom: 1px solid var(--line); }
+.catalog-table tr:last-child td { border-bottom: none; }
+.catalog-table td.num { text-align: right; font-family: "IBM Plex Mono", monospace; }
+.catalog-table a { color: var(--fg); text-decoration: underline; }
+.catalog-table a:hover { text-decoration: none; }
+.catalog-row-title { font-weight: 600; }
+.catalog-empty { padding: 2rem; text-align: center; color: var(--fg-muted); }
+.catalog-count { margin-top: 0.6rem; text-align: right; font-size: 0.82rem; color: var(--fg-muted); }
+.catalog-count-mobile { display: none; }
+
+.catalog-list { display: none; flex-direction: column; gap: 0.6rem; }
+.catalog-list-item { padding: 0.9rem 1rem; }
+.catalog-list-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.catalog-list-meta { margin-top: 0.4rem; }
+.catalog-list-meta a { color: var(--fg); text-decoration: underline; }
+.catalog-list-meta a:hover { text-decoration: none; }
+
+.catalog-filters-sheet {
+  position: fixed; inset: 0; background: var(--bg); z-index: 50;
+  display: flex; flex-direction: column; padding: 1.3rem; overflow-y: auto;
+}
+.catalog-filters-sheet-header { display: flex; align-items: center; justify-content: space-between; }
+.catalog-filters-sheet-title { font-family: Fraunces, serif; font-style: italic; font-weight: 560; font-size: 1.05rem; }
+.catalog-filters-sheet-body { margin-top: 1.3rem; display: flex; flex-direction: column; gap: 1.4rem; }
+.catalog-filters-sheet-actions { display: flex; gap: 0.6rem; margin-top: 1.8rem; }
+.catalog-filters-sheet-actions .btn { flex: 1; justify-content: center; }
+.icon-btn {
+  display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px;
+  color: var(--fg); background: var(--bg-alt); border: 1px solid var(--line); border-radius: 999px;
+  padding: 0; cursor: pointer;
+}
+.icon-btn:hover { border-color: var(--accent); }
+.icon-btn svg { width: 16px; height: 16px; }
+
+@media (max-width: 760px) {
+  .catalog-facets, .catalog-sort, .catalog-table-wrap, .catalog-count-desktop { display: none; }
+  .catalog-layout { display: block; }
+  .catalog-filters-btn { display: inline-flex; }
+  .catalog-count-mobile { display: block; margin-bottom: 0.8rem; }
+  .catalog-list { display: flex; }
+}
 
 /* ---------- Roadmap ---------- */
 .roadmap-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }

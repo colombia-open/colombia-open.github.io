@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { BrandMark, GithubMark } from "./BrandMark";
-import { ThemeToggle } from "./ThemeToggle";
 
 const LIBRARY_URL = "https://github.com/davidcasr/colombia-open";
 
@@ -29,7 +28,6 @@ export function SiteHeader({ releaseTag, releaseUrl }: { releaseTag: string; rel
               <GithubMark />
               GitHub
             </a>
-            <ThemeToggle />
           </div>
         </nav>
       </div>

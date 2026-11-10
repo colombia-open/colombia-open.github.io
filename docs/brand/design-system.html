@@ -296,7 +296,7 @@
     <!-- TEMAS -->
     <section class="ds" id="temas">
       <h2 class="display">Temas (claro/oscuro)</h2>
-      <p class="sub">El sitio respeta <code>prefers-color-scheme</code> por defecto, con un botón para forzar el tema (<code>components/ThemeToggle.tsx</code>, guardado en <code>localStorage</code>, por viewer, no compartido). Toca el botón para ver el mismo panel en los dos temas.</p>
+      <p class="sub"><b>El sitio en producción publica solo el tema oscuro</b> (decisión de producto) — <code>app/globals.css</code> define los tokens directo en <code>:root</code>, sin <code>prefers-color-scheme</code> ni <code>data-theme</code>, y no hay botón de toggle. El tema claro sigue viviendo aquí, documentado como referencia del sistema — si se reintroduce un selector de tema más adelante, este es el lugar donde empieza. Toca el botón para ver el mismo panel en los dos temas.</p>
       <div class="theme-demo" id="theme-demo" data-theme="light">
         <div class="row" style="justify-content: space-between;">
           <span class="display" style="font-size: 22px; color: var(--fg);">colombia-open</span>
