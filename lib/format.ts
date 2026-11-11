@@ -32,5 +32,8 @@ export function humanSourceUrl(url: string | null | undefined): string | null {
  */
 export function sourceInstitution(sourceName: string): string {
   const idx = sourceName.indexOf(" — ");
-  return idx === -1 ? sourceName : sourceName.slice(0, idx);
+  const institution = idx === -1 ? sourceName : sourceName.slice(0, idx);
+  // también corta una sigla entre paréntesis al final, p.ej.
+  // "Superintendencia Financiera de Colombia (SUPERFINANCIERA)" -> sin la sigla.
+  return institution.replace(/\s*\([^)]*\)\s*$/, "");
 }
