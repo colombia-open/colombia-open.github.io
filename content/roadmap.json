@@ -80,7 +80,7 @@
     },
     {
       "dominio": "Consumo eléctrico",
-      "fuente": "XM / UPME",
+      "fuente": "XM (API pública) / UPME",
       "estado": "Pendiente"
     },
     {
@@ -90,12 +90,42 @@
     },
     {
       "dominio": "Salud",
-      "fuente": "MinSalud — SISPRO",
+      "fuente": "MinSalud — REPS / SISPRO",
       "estado": "Pendiente"
     },
     {
       "dominio": "Clima",
-      "fuente": "IDEAM",
+      "fuente": "IDEAM (vía datos.gov.co)",
+      "estado": "Pendiente"
+    },
+    {
+      "dominio": "Agro (EVA)",
+      "fuente": "MinAgricultura / UPRA",
+      "estado": "Pendiente"
+    },
+    {
+      "dominio": "Contratación pública (SECOP II)",
+      "fuente": "Colombia Compra Eficiente",
+      "estado": "Pendiente"
+    },
+    {
+      "dominio": "Seguridad (homicidios y otros delitos)",
+      "fuente": "Policía Nacional / MinDefensa",
+      "estado": "Pendiente"
+    },
+    {
+      "dominio": "Educación superior (SNIES)",
+      "fuente": "MinEducación — SNIES",
+      "estado": "Pendiente"
+    },
+    {
+      "dominio": "Biodiversidad (SiB / GBIF)",
+      "fuente": "SiB Colombia (vía GBIF)",
+      "estado": "Pendiente"
+    },
+    {
+      "dominio": "Empresas (Supersociedades)",
+      "fuente": "Superintendencia de Sociedades",
       "estado": "Pendiente"
     },
     {
