@@ -23,3 +23,14 @@ export function humanSourceUrl(url: string | null | undefined): string | null {
     "$1"
   );
 }
+
+/**
+ * source_name suele venir como "Institución — detalle de la serie, vía
+ * portal" (p.ej. "IDEAM — Calidad del Aire en Colombia (Promedio Anual),
+ * vía datos.gov.co"). En vistas compactas (tabla, lista) solo mostramos la
+ * institución; el texto completo sigue disponible como title/tooltip.
+ */
+export function sourceInstitution(sourceName: string): string {
+  const idx = sourceName.indexOf(" — ");
+  return idx === -1 ? sourceName : sourceName.slice(0, idx);
+}

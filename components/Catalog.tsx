@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { CatalogGroup, DatasetEntry } from "@/lib/types";
-import { formatCount, formatDate, humanSourceUrl } from "@/lib/format";
+import { formatCount, formatDate, humanSourceUrl, sourceInstitution } from "@/lib/format";
 
 interface Row {
   entry: DatasetEntry;
@@ -30,10 +30,13 @@ function toggleValue(list: string[], value: string): string[] {
 
 function SourceLink({ entry }: { entry: DatasetEntry }) {
   const sourceUrl = humanSourceUrl(entry.source_url);
-  if (!sourceUrl) return <>{entry.source_name || "Fuente sin declarar"}</>;
+  const fullName = entry.source_name || "Fuente sin declarar";
+  const label = sourceInstitution(fullName);
+  const title = label === fullName ? undefined : fullName;
+  if (!sourceUrl) return <span title={title}>{label}</span>;
   return (
-    <a href={sourceUrl} target="_blank" rel="noopener">
-      {entry.source_name}
+    <a href={sourceUrl} target="_blank" rel="noopener" title={title}>
+      {label}
     </a>
   );
 }
