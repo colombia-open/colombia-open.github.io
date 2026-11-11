@@ -4,7 +4,6 @@ export function McpServer() {
   return (
     <section className="band mcp" id="mcp">
       <div className="wrap">
-        <p className="eyebrow">Para agentes de IA</p>
         <h2>Servidor MCP</h2>
         <p className="intro">
           El mismo catálogo, expuesto a tu agente por{" "}
