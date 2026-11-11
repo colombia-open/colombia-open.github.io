@@ -5,6 +5,7 @@ import type { CatalogDisplay, Roadmap as RoadmapData } from "@/lib/types";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
 import { Examples } from "@/components/Examples";
+import { McpServer } from "@/components/McpServer";
 import { Catalog } from "@/components/Catalog";
 import { Roadmap } from "@/components/Roadmap";
 import { Contribute } from "@/components/Contribute";
@@ -27,6 +28,7 @@ export default async function HomePage() {
       <SiteHeader releaseTag={tag} releaseUrl={releaseUrl} />
       <Hero />
       <Examples />
+      <McpServer />
       <Catalog groups={groups} />
       <Roadmap rows={rows} />
       <Contribute />

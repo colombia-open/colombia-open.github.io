@@ -8,6 +8,7 @@ const LIBRARY_URL = "https://github.com/davidcasr/colombia-open";
 
 const NAV_LINKS = [
   { href: "#catalogo", label: "Catálogo" },
+  { href: "#mcp", label: "MCP" },
   { href: "#roadmap", label: "Roadmap" },
   { href: "#contribuir", label: "Contribuir" },
   { href: "https://pypi.org/project/colombia-open/", label: "PyPI", external: true },
