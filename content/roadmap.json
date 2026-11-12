@@ -109,11 +109,6 @@
       "estado": "Pendiente"
     },
     {
-      "dominio": "Seguridad (homicidios y otros delitos)",
-      "fuente": "Policía Nacional / MinDefensa",
-      "estado": "Pendiente"
-    },
-    {
       "dominio": "Educación superior (SNIES)",
       "fuente": "MinEducación — SNIES",
       "estado": "Pendiente"
