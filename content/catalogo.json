@@ -46,6 +46,10 @@
       "titulo": "Hurto a residencias y comercios",
       "grupo": "Seguridad y convivencia"
     },
+    "delincuencia_homicidios": {
+      "titulo": "Homicidios",
+      "grupo": "Seguridad y convivencia"
+    },
     "infraestructura_poi": {
       "titulo": "Puntos de interés urbanos",
       "grupo": "Infraestructura"
