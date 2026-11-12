@@ -54,11 +54,11 @@ cuando cambia código de este repo. Por eso `.github/workflows/deploy.yml`
 no solo se dispara por push a `main`: también corre a diario (`schedule`)
 y escucha `repository_dispatch` tipo `library-release`.
 
-**Pendiente de wiring** (hazlo en `davidcasr/colombia-open`, no aquí):
-agregar un paso al final de `.github/workflows/release.yml` de ese repo
-que dispare `repository_dispatch` contra este repo (`type:
-library-release`) justo después de publicar el release, usando un PAT
-con permiso `repo` sobre la organización `colombia-open` guardado como
-secret. Sin eso, el cron diario sigue siendo el mecanismo real de
-actualización — funciona, solo con hasta ~24h de retraso en vez de ser
-inmediato.
+**Wiring hecho** en `davidcasr/colombia-open`: `.github/workflows/release.yml`
+de ese repo dispara `repository_dispatch` (`type: library-release`)
+contra este repo justo después de publicar el release, usando el secret
+`LANDING_DISPATCH_TOKEN` (PAT con permiso `repo`) configurado allá — no
+aquí. Si ese secret no está configurado en ese repo (o el PAT vence), ese
+paso falla solo, sin romper el release de datos, y el cron diario de
+este repo sigue siendo el mecanismo de respaldo — con hasta ~24h de
+retraso en vez de ser inmediato.

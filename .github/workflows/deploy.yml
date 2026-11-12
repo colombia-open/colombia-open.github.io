@@ -9,10 +9,9 @@ on:
   # desactualizado. Ver .claude/rules/data-source.md.
   schedule:
     - cron: "17 10 * * *" # ~05:17 America/Bogota (UTC-5)
-  # Permite que davidcasr/colombia-open dispare un rebuild inmediato al
-  # publicar un release nuevo (requiere wiring en ese repo — ver
-  # .claude/rules/data-source.md). Hasta entonces, el cron diario es el
-  # mecanismo real de actualización.
+  # davidcasr/colombia-open dispara esto al publicar un release (ver
+  # .claude/rules/data-source.md) para un rebuild inmediato. El cron
+  # diario sigue como respaldo si ese wiring falla (secret vencido, etc.).
   repository_dispatch:
     types: [library-release]
   workflow_dispatch: {}
