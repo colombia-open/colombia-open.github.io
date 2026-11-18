@@ -99,6 +99,30 @@ export async function fetchRegistry(): Promise<Registry> {
   );
 }
 
+/**
+ * Licencia del CÓDIGO de la librería (no de los datos), leída de
+ * `pyproject.toml` en main — nunca escrita a mano aquí. Si el campo no se
+ * puede leer, el build falla igual que con el catálogo.
+ */
+export async function fetchCodeLicense(): Promise<string> {
+  const url = `https://raw.githubusercontent.com/${LIBRARY_REPO}/${LIBRARY_BRANCH}/pyproject.toml`;
+  const res = await fetch(url, { headers: githubHeaders(url) });
+  if (!res.ok) {
+    throw new SiteBuildError(`GitHub respondió ${res.status} para ${url}`);
+  }
+  return parseCodeLicense(await res.text());
+}
+
+export function parseCodeLicense(pyproject: string): string {
+  // `license = "MIT"` (PEP 639) o `license = { text = "MIT" }` (formato viejo).
+  const match = pyproject.match(/^license\s*=\s*(?:"([^"]+)"|\{\s*text\s*=\s*"([^"]+)"\s*\})/m);
+  const license = match?.[1] ?? match?.[2];
+  if (!license) {
+    throw new SiteBuildError("pyproject.toml de la librería no declara `license` en [project]");
+  }
+  return license;
+}
+
 export function buildCatalogGroups(
   catalog: DatasetCatalog,
   display: CatalogDisplay

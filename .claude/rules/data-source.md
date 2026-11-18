@@ -11,12 +11,15 @@ build-time por `lib/catalog.ts`.
    `davidcasr/colombia-open` (`fetchLatestCatalog()`) — la verdad sobre
    qué datasets están publicados hoy: descripción, `record_count`,
    `source_name`, `source_url`, `reuse_policy`, `refreshed_at_utc`.
-2. **`data/registry/datasets.json` de la rama `main`** del mismo repo
+2. **`pyproject.toml` de la rama `main`** (`fetchCodeLicense()`) — solo
+   el campo `license` (licencia del código de la librería, que se muestra
+   en el footer). Nunca se escribe a mano aquí.
+3. **`data/registry/datasets.json` de la rama `main`** del mismo repo
    (`fetchRegistry()`) — el registro completo (publicados y no), usado
    solo para resolver la fuente oficial de los datasets del roadmap que
    todavía no están en un release.
 
-Ninguno de los dos se cachea entre builds ni se versiona en este repo —
+Ninguno de ellos se cachea entre builds ni se versiona en este repo —
 se vuelve a pedir en cada build (`cache: "no-store"` en los fetch de
 `lib/catalog.ts`), así el sitio siempre refleja el último release al
 reconstruirse.

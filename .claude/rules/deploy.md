@@ -13,7 +13,8 @@ el sitio es HTML/CSS/JS estático generado en build-time.
   desactualizado más de ~24h. Ver `.claude/rules/data-source.md`.
 - `repository_dispatch` tipo `library-release` — pensado para que
   `davidcasr/colombia-open` dispare un rebuild inmediato al publicar
-  release. No está wireado del otro lado todavía.
+  release. Wireado desde `release.yml` de la librería (secret
+  `LANDING_DISPATCH_TOKEN` allá) — ver `.claude/rules/data-source.md`.
 - `workflow_dispatch` — manual.
 
 ## Dominio
