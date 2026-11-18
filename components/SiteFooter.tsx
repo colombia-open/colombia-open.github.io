@@ -2,7 +2,7 @@ import { BrandMark } from "./BrandMark";
 
 const LIBRARY_URL = "https://github.com/davidcasr/colombia-open";
 
-export function SiteFooter() {
+export function SiteFooter({ codeLicense }: { codeLicense: string }) {
   return (
     <footer className="band site-footer">
       <div className="wrap">
@@ -34,13 +34,19 @@ export function SiteFooter() {
           </div>
           <div className="foot-col">
             <h4>Licencias</h4>
+            <a href={`${LIBRARY_URL}/blob/main/LICENSE`} target="_blank" rel="noopener">
+              Código: {codeLicense}
+            </a>
             <a href={`${LIBRARY_URL}/blob/main/docs/licenses/data_licenses.md`} target="_blank" rel="noopener">
               Licencias por dataset
             </a>
           </div>
         </div>
         <div className="foot-bottom">
-          <span>colombia-open · cada dataset conserva la licencia de su fuente original</span>
+          <span>
+            colombia-open · código bajo licencia {codeLicense} · cada dataset conserva la licencia de su
+            fuente original
+          </span>
           <span>
             Hecho por <a href="https://davidcasr.com/">David Castro</a> ·{" "}
             <a href="https://github.com/davidcasr">@davidcasr</a>

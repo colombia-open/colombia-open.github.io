@@ -2,7 +2,13 @@
 
 import { useMemo, useState } from "react";
 import type { CatalogGroup, DatasetEntry } from "@/lib/types";
-import { formatCount, formatDate, humanSourceUrl, sourceInstitution } from "@/lib/format";
+import {
+  formatCount,
+  formatDate,
+  formatUpdateFrequency,
+  humanSourceUrl,
+  sourceInstitution,
+} from "@/lib/format";
 
 interface Row {
   entry: DatasetEntry;
@@ -18,6 +24,36 @@ function buildRows(groups: CatalogGroup[]): Row[] {
 
 function licenseOf(entry: DatasetEntry): string {
   return entry.reuse_policy?.license ?? "Licencia sin declarar";
+}
+
+const LICENSES_DOC_URL =
+  "https://github.com/davidcasr/colombia-open/blob/main/docs/licenses/data_licenses.md";
+
+/** Todo lo que no es licencia abierta con atribución se marca en la fila. */
+function TermsBadge({ entry }: { entry: DatasetEntry }) {
+  if (!entry.reuse_policy || entry.reuse_policy.status === "open-attribution") return null;
+  return (
+    <a
+      className="catalog-terms"
+      href={LICENSES_DOC_URL}
+      target="_blank"
+      rel="noopener"
+      title={entry.reuse_policy.license}
+    >
+      Sin licencia abierta: revisar términos
+    </a>
+  );
+}
+
+function UpdateInfo({ entry }: { entry: DatasetEntry }) {
+  return (
+    <>
+      <div>{formatDate(entry.refreshed_at_utc)}</div>
+      <div className="dataset-slug" title={entry.update_frequency_source ?? undefined}>
+        {formatUpdateFrequency(entry.update_frequency)}
+      </div>
+    </>
+  );
 }
 
 function formatsOf(entry: DatasetEntry): string[] {
@@ -194,7 +230,7 @@ export function Catalog({ groups }: { groups: CatalogGroup[] }) {
                     <th className="num nowrap">Filas</th>
                     <th className="nowrap">Formato</th>
                     <th className="nowrap">Fuente</th>
-                    <th className="nowrap">Actualizado</th>
+                    <th className="nowrap">Actualización</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -203,6 +239,7 @@ export function Catalog({ groups }: { groups: CatalogGroup[] }) {
                       <td>
                         <div className="catalog-row-title">{r.titulo}</div>
                         <div className="dataset-slug">{r.entry.dataset}</div>
+                        <TermsBadge entry={r.entry} />
                       </td>
                       <td className="nowrap">{r.grupo}</td>
                       <td className="num nowrap">{formatCount(r.entry.record_count)}</td>
@@ -210,7 +247,9 @@ export function Catalog({ groups }: { groups: CatalogGroup[] }) {
                       <td className="nowrap">
                         <SourceLink entry={r.entry} />
                       </td>
-                      <td className="note nowrap">{formatDate(r.entry.refreshed_at_utc)}</td>
+                      <td className="note nowrap">
+                        <UpdateInfo entry={r.entry} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -236,9 +275,14 @@ export function Catalog({ groups }: { groups: CatalogGroup[] }) {
                 <span className="note">{formatCount(r.entry.record_count)}</span>
               </div>
               <div className="dataset-slug">{r.entry.dataset}</div>
+              <TermsBadge entry={r.entry} />
               <p className="note catalog-list-meta">
                 {r.grupo} · {formatsOf(r.entry).join(" · ") || "—"} ·{" "}
                 <SourceLink entry={r.entry} />
+              </p>
+              <p className="note catalog-list-meta">
+                Actualizado el {formatDate(r.entry.refreshed_at_utc)} ·{" "}
+                {formatUpdateFrequency(r.entry.update_frequency)}
               </p>
             </div>
           ))}

@@ -58,8 +58,36 @@ function catalogFromBundle(bundle: Buffer): DatasetCatalog {
   return JSON.parse(entry.getData().toString("utf-8")) as DatasetCatalog;
 }
 
+const RELEASE_TAG_IN_URL = /\/releases\/download\/([^/]+)\//;
+
+/**
+ * Camino principal: descarga directa (`releases/latest/download/...`), sin
+ * api.github.com — la API tiene límite de tasa y es lo que más falla fuera
+ * de CI. El tag sale de la redirección de GitHub. Devuelve null si el
+ * último release no trae `dataset_catalog.json` (releases viejos).
+ */
+async function fetchLatestCatalogDirect(): Promise<{ catalog: DatasetCatalog; tag: string } | null> {
+  const url = `https://github.com/${LIBRARY_REPO}/releases/latest/download/${CATALOG_ASSET}`;
+  const first = await fetch(url, { headers: githubHeaders(url), redirect: "manual" });
+  if (first.status === 404) return null;
+  const location = first.headers.get("location");
+  const tag = location?.match(RELEASE_TAG_IN_URL)?.[1];
+  if (first.status < 300 || first.status >= 400 || !location || !tag) {
+    throw new SiteBuildError(
+      `Descarga directa de ${url} respondió ${first.status} sin redirección a un release con tag`
+    );
+  }
+  const catalog = await fetchJson<DatasetCatalog>(new URL(location, url).toString());
+  return { catalog, tag };
+}
+
 /** Descarga el catálogo del último release publicado de la librería. */
 export async function fetchLatestCatalog(): Promise<{ catalog: DatasetCatalog; tag: string }> {
+  const direct = await fetchLatestCatalogDirect();
+  if (direct) return direct;
+
+  // Respaldo: releases anteriores a v0.12.1 no adjuntan dataset_catalog.json
+  // — se resuelve vía API y se lee del bundle verificando su SHA256.
   const release = await fetchJson<{
     tag_name: string;
     assets: Array<{ name: string; browser_download_url: string }>;
@@ -97,6 +125,53 @@ export async function fetchRegistry(): Promise<Registry> {
   return fetchJson<Registry>(
     `https://raw.githubusercontent.com/${LIBRARY_REPO}/${LIBRARY_BRANCH}/data/registry/datasets.json`
   );
+}
+
+/**
+ * Licencia del CÓDIGO de la librería (no de los datos), leída de
+ * `pyproject.toml` en main — nunca escrita a mano aquí. Si el campo no se
+ * puede leer, el build falla igual que con el catálogo.
+ */
+export async function fetchCodeLicense(): Promise<string> {
+  const url = `https://raw.githubusercontent.com/${LIBRARY_REPO}/${LIBRARY_BRANCH}/pyproject.toml`;
+  const res = await fetch(url, { headers: githubHeaders(url) });
+  if (!res.ok) {
+    throw new SiteBuildError(`GitHub respondió ${res.status} para ${url}`);
+  }
+  return parseCodeLicense(await res.text());
+}
+
+export function parseCodeLicense(pyproject: string): string {
+  // `license = "MIT"` (PEP 639) o `license = { text = "MIT" }` (formato viejo).
+  const match = pyproject.match(/^license\s*=\s*(?:"([^"]+)"|\{\s*text\s*=\s*"([^"]+)"\s*\})/m);
+  const license = match?.[1] ?? match?.[2];
+  if (!license) {
+    throw new SiteBuildError("pyproject.toml de la librería no declara `license` en [project]");
+  }
+  return license;
+}
+
+/**
+ * `update_frequency` llega al catálogo publicado a partir del release que
+ * lo incluye (v0.15.0). Para releases anteriores se toma del registro de
+ * `main` — mismo dato, misma fuente (la librería), nunca escrito aquí.
+ * Si ninguno de los dos trae la clave, se deja ausente (la UI dice "sin
+ * dato"), sin inventar una frecuencia.
+ */
+export function withUpdateFrequency(catalog: DatasetCatalog, registry: Registry): DatasetCatalog {
+  return {
+    ...catalog,
+    datasets: catalog.datasets.map((entry) => {
+      if ("update_frequency" in entry) return entry;
+      const reg = registry[entry.dataset];
+      if (!reg || !("update_frequency" in reg)) return entry;
+      return {
+        ...entry,
+        update_frequency: reg.update_frequency ?? null,
+        update_frequency_source: reg.update_frequency_source ?? null,
+      };
+    }),
+  };
 }
 
 export function buildCatalogGroups(

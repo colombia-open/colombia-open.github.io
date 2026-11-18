@@ -226,6 +226,15 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
 .catalog-list-item { padding: 0.9rem 1rem; }
 .catalog-list-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
 .catalog-list-meta { margin-top: 0.4rem; }
+/* Misma forma y tokens que .roadmap-restricted — sin color nuevo. */
+.catalog-terms {
+  display: inline-flex; margin-top: 0.35rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  color: var(--alert); border: 1px solid var(--alert); border-radius: 999px;
+  padding: 0.15rem 0.55rem; white-space: nowrap; text-decoration: none;
+  align-self: flex-start; width: fit-content;
+}
+.catalog-terms:hover { text-decoration: underline; }
 .catalog-list-meta a { color: var(--fg); text-decoration: underline; }
 .catalog-list-meta a:hover { text-decoration: none; }
 
