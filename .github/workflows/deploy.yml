@@ -48,3 +48,37 @@ jobs:
           path: "out"
       - id: deployment
         uses: actions/deploy-pages@v5
+
+  # El build falla a propósito ante un catálogo inválido (SiteBuildError) —
+  # pero un cron que falla en silencio dejó el sitio desactualizado 5 días
+  # (2026-11-13 a 18: faltaba un dataset en content/catalogo.json). Este
+  # job abre un issue al primer fallo y comenta en él en los siguientes, en
+  # vez de abrir uno por corrida. Se cierra a mano al arreglarlo.
+  notify-failure:
+    needs: deploy
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "Deploy de la landing fallando";
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `Falló la corrida [#${context.runNumber}](${runUrl}) (evento \`${context.eventName}\`).`,
+              "",
+              "El sitio publicado sigue siendo el último deploy exitoso — puede estar desactualizado.",
+              "Causa más común: un dataset nuevo del último release sin entrada en `content/catalogo.json` (`SiteBuildError`).",
+              "Ver `.claude/rules/data-source.md`.",
+            ].join("\n");
+            const { data: open } = await github.rest.issues.listForRepo({
+              ...context.repo, state: "open", per_page: 100,
+            });
+            const existing = open.find((i) => i.title === title && !i.pull_request);
+            if (existing) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: existing.number, body });
+            } else {
+              await github.rest.issues.create({ ...context.repo, title, body });
+            }
