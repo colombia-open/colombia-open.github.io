@@ -6,6 +6,7 @@ import {
   fetchCodeLicense,
   fetchLatestCatalog,
   fetchRegistry,
+  withUpdateFrequency,
 } from "@/lib/catalog";
 import type { CatalogDisplay, Roadmap as RoadmapData } from "@/lib/types";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -29,7 +30,10 @@ export default async function HomePage() {
     fetchCodeLicense(),
   ]);
 
-  const groups = buildCatalogGroups(catalog, catalogoDisplay as CatalogDisplay);
+  const groups = buildCatalogGroups(
+    withUpdateFrequency(catalog, registry),
+    catalogoDisplay as CatalogDisplay
+  );
   const rows = buildRoadmapRows(catalog, roadmapDisplay as RoadmapData, registry);
   const releaseUrl = `https://github.com/davidcasr/colombia-open/releases/tag/${tag}`;
 
