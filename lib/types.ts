@@ -14,6 +14,9 @@ export interface DatasetEntry {
   source_url?: string;
   source_mode: "live" | "fallback";
   refreshed_at_utc: string;
+  /** Frecuencia de actualización declarada por la fuente; null si no la declara. */
+  update_frequency?: string | null;
+  update_frequency_source?: string | null;
   record_count: number;
   join_keys?: string[];
   reuse_policy: ReusePolicy;
@@ -59,6 +62,8 @@ export interface Roadmap {
 export interface RegistryEntry {
   description: string;
   source_name: string;
+  update_frequency?: string | null;
+  update_frequency_source?: string | null;
 }
 
 export type Registry = Record<string, RegistryEntry>;

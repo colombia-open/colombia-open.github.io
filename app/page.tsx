@@ -1,7 +1,14 @@
 import catalogoDisplay from "@/content/catalogo.json";
 import roadmapDisplay from "@/content/roadmap.json";
 import proyectosDisplay from "@/content/proyectos.json";
-import { buildCatalogGroups, buildRoadmapRows, fetchLatestCatalog, fetchRegistry } from "@/lib/catalog";
+import {
+  buildCatalogGroups,
+  buildRoadmapRows,
+  fetchCodeLicense,
+  fetchLatestCatalog,
+  fetchRegistry,
+  withUpdateFrequency,
+} from "@/lib/catalog";
 import type { CatalogDisplay, ProjectsDisplay, Roadmap as RoadmapData } from "@/lib/types";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
@@ -19,9 +26,16 @@ import { SiteFooter } from "@/components/SiteFooter";
 // release no se puede leer, este build falla a propósito: ver
 // .claude/rules/data-source.md.
 export default async function HomePage() {
-  const [{ catalog, tag }, registry] = await Promise.all([fetchLatestCatalog(), fetchRegistry()]);
+  const [{ catalog, tag }, registry, codeLicense] = await Promise.all([
+    fetchLatestCatalog(),
+    fetchRegistry(),
+    fetchCodeLicense(),
+  ]);
 
-  const groups = buildCatalogGroups(catalog, catalogoDisplay as CatalogDisplay);
+  const groups = buildCatalogGroups(
+    withUpdateFrequency(catalog, registry),
+    catalogoDisplay as CatalogDisplay
+  );
   const rows = buildRoadmapRows(catalog, roadmapDisplay as RoadmapData, registry);
   const releaseUrl = `https://github.com/davidcasr/colombia-open/releases/tag/${tag}`;
 
@@ -35,7 +49,7 @@ export default async function HomePage() {
       <Proyectos proyectos={(proyectosDisplay as ProjectsDisplay).proyectos} />
       <Roadmap rows={rows} />
       <Contribute />
-      <SiteFooter />
+      <SiteFooter codeLicense={codeLicense} />
     </>
   );
 }

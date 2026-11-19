@@ -37,3 +37,13 @@ export function sourceInstitution(sourceName: string): string {
   // "Superintendencia Financiera de Colombia (SUPERFINANCIERA)" -> sin la sigla.
   return institution.replace(/\s*\([^)]*\)\s*$/, "");
 }
+
+/**
+ * Cadencia declarada por la fuente. `undefined` = el catálogo aún no trae
+ * el campo; `null` = la fuente no declara una frecuencia.
+ */
+export function formatUpdateFrequency(freq: string | null | undefined): string {
+  if (freq === undefined) return "cadencia sin dato";
+  if (freq === null) return "cadencia no declarada";
+  return `fuente: ${freq.toLowerCase()}`;
+}

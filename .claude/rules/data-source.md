@@ -8,15 +8,21 @@ build-time por `lib/catalog.ts`.
 ## Qué se lee y de dónde
 
 1. **`dataset_catalog.json` del último GitHub Release** de
-   `davidcasr/colombia-open` (`fetchLatestCatalog()`) — la verdad sobre
-   qué datasets están publicados hoy: descripción, `record_count`,
-   `source_name`, `source_url`, `reuse_policy`, `refreshed_at_utc`.
-2. **`data/registry/datasets.json` de la rama `main`** del mismo repo
+   `davidcasr/colombia-open` (`fetchLatestCatalog()`, vía la URL de
+   descarga directa `releases/latest/download/`, sin la API) — la verdad
+   sobre qué datasets están publicados hoy: descripción, `record_count`,
+   `source_name`, `source_url`, `reuse_policy`, `refreshed_at_utc`,
+   `update_frequency` (frecuencia declarada por la fuente).
+2. **`pyproject.toml` de la rama `main`** (`fetchCodeLicense()`) — solo
+   el campo `license` (licencia del código de la librería, que se muestra
+   en el footer). Nunca se escribe a mano aquí.
+3. **`data/registry/datasets.json` de la rama `main`** del mismo repo
    (`fetchRegistry()`) — el registro completo (publicados y no), usado
-   solo para resolver la fuente oficial de los datasets del roadmap que
-   todavía no están en un release.
+   para resolver la fuente oficial de los datasets del roadmap que
+   todavía no están en un release, y para `update_frequency` cuando el
+   release publicado es anterior a ese campo (`withUpdateFrequency()`).
 
-Ninguno de los dos se cachea entre builds ni se versiona en este repo —
+Ninguno de ellos se cachea entre builds ni se versiona en este repo —
 se vuelve a pedir en cada build (`cache: "no-store"` en los fetch de
 `lib/catalog.ts`), así el sitio siempre refleja el último release al
 reconstruirse.
@@ -54,11 +60,11 @@ cuando cambia código de este repo. Por eso `.github/workflows/deploy.yml`
 no solo se dispara por push a `main`: también corre a diario (`schedule`)
 y escucha `repository_dispatch` tipo `library-release`.
 
-**Pendiente de wiring** (hazlo en `davidcasr/colombia-open`, no aquí):
-agregar un paso al final de `.github/workflows/release.yml` de ese repo
-que dispare `repository_dispatch` contra este repo (`type:
-library-release`) justo después de publicar el release, usando un PAT
-con permiso `repo` sobre la organización `colombia-open` guardado como
-secret. Sin eso, el cron diario sigue siendo el mecanismo real de
-actualización — funciona, solo con hasta ~24h de retraso en vez de ser
-inmediato.
+**Wiring hecho** en `davidcasr/colombia-open`: `.github/workflows/release.yml`
+de ese repo dispara `repository_dispatch` (`type: library-release`)
+contra este repo justo después de publicar el release, usando el secret
+`LANDING_DISPATCH_TOKEN` (PAT con permiso `repo`) configurado allá — no
+aquí. Si ese secret no está configurado en ese repo (o el PAT vence), ese
+paso falla solo, sin romper el release de datos, y el cron diario de
+este repo sigue siendo el mecanismo de respaldo — con hasta ~24h de
+retraso en vez de ser inmediato.
