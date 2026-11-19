@@ -73,3 +73,18 @@ export interface RoadmapDisplayRow {
   fuente: string;
   restricted: boolean;
 }
+
+export type ProjectCategory = "demo" | "externo";
+
+export interface ProjectEntry {
+  titulo: string;
+  repo: string;
+  categoria: ProjectCategory;
+  descripcion: string;
+  stack: string[];
+  demo_url?: string;
+}
+
+export interface ProjectsDisplay {
+  proyectos: ProjectEntry[];
+}

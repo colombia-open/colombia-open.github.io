@@ -32,7 +32,7 @@ export function Roadmap({ rows }: { rows: RoadmapDisplayRow[] }) {
           </table>
         </div>
 
-        <div className="roadmap-cta-card">
+        <div className="cta-card">
           <div>
             <p className="eyebrow">¿Falta algo?</p>
             <h3>¿Conoces una fuente pública que no está aquí?</h3>

@@ -1,12 +1,14 @@
 import catalogoDisplay from "@/content/catalogo.json";
 import roadmapDisplay from "@/content/roadmap.json";
+import proyectosDisplay from "@/content/proyectos.json";
 import { buildCatalogGroups, buildRoadmapRows, fetchLatestCatalog, fetchRegistry } from "@/lib/catalog";
-import type { CatalogDisplay, Roadmap as RoadmapData } from "@/lib/types";
+import type { CatalogDisplay, ProjectsDisplay, Roadmap as RoadmapData } from "@/lib/types";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
 import { Examples } from "@/components/Examples";
 import { McpServer } from "@/components/McpServer";
 import { Catalog } from "@/components/Catalog";
+import { Proyectos } from "@/components/Proyectos";
 import { Roadmap } from "@/components/Roadmap";
 import { Contribute } from "@/components/Contribute";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -30,6 +32,7 @@ export default async function HomePage() {
       <Examples />
       <McpServer />
       <Catalog groups={groups} />
+      <Proyectos proyectos={(proyectosDisplay as ProjectsDisplay).proyectos} />
       <Roadmap rows={rows} />
       <Contribute />
       <SiteFooter />

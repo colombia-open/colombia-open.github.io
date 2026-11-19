@@ -271,7 +271,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
   padding: 0.15rem 0.55rem; white-space: nowrap;
 }
 
-.roadmap-cta-card {
+.cta-card {
   margin-top: 1.6rem;
   background: var(--bg-alt);
   border: 1px solid var(--line);
@@ -283,9 +283,35 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-family: Fraunces, "Iowan Old St
   gap: 1.4rem;
   flex-wrap: wrap;
 }
-.roadmap-cta-card h3 { font-size: 1.4rem; margin: 0.3rem 0 0.5rem; max-width: 36ch; }
-.roadmap-cta-card > div > p:last-child { margin: 0; color: var(--fg-muted); font-size: 0.92rem; max-width: 42ch; }
-.roadmap-cta-card .btn { flex-shrink: 0; }
+.cta-card h3 { font-size: 1.4rem; margin: 0.3rem 0 0.5rem; max-width: 36ch; }
+.cta-card > div > p:last-child { margin: 0; color: var(--fg-muted); font-size: 0.92rem; max-width: 42ch; }
+.cta-card .btn { flex-shrink: 0; }
+
+/* ---------- Proyectos ---------- */
+.proyecto-filters { display: flex; gap: 0.6rem; margin-bottom: 1.6rem; flex-wrap: wrap; }
+.chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--fg);
+  background: color-mix(in srgb, var(--bg-alt) 80%, var(--accent) 20%);
+}
+.proyecto-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.1rem; margin-bottom: 1.6rem; }
+.proyecto-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+.proyecto-badge {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; letter-spacing: 0.04em;
+  border-radius: 999px; padding: 0.22rem 0.6rem; white-space: nowrap; flex-shrink: 0;
+  border: 1px solid var(--line); color: var(--fg-muted);
+}
+.proyecto-badge.externo { border-color: var(--accent); color: var(--accent); }
+.proyecto-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.proyecto-tag {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 0.18rem 0.5rem; color: var(--fg-muted);
+}
+.proyecto-links { display: flex; gap: 1rem; margin-top: auto; padding-top: 0.2rem; }
+.proyecto-links a { font-size: 0.84rem; color: var(--fg); text-decoration: underline; display: inline-flex; align-items: center; gap: 0.35rem; }
+.proyecto-links a:hover { text-decoration: none; }
+.proyecto-links svg { width: 14px; height: 14px; flex-shrink: 0; }
 
 /* ---------- Contribute ---------- */
 .contribute-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.1rem; margin-bottom: 1.4rem; }

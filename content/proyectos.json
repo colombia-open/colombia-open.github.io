@@ -1,0 +1,21 @@
+{
+  "_comentario": "Proyectos de la comunidad hechos con colombia-open — demos pequeñas o apps/proyectos externos en producción. A diferencia de catalogo.json/roadmap.json, esto no tiene contraparte en el catálogo publicado por la librería: se agrega a mano vía PR o issue cuando alguien construye algo.",
+  "proyectos": [
+    {
+      "titulo": "Radar de siniestralidad vial",
+      "repo": "colombia-open/colombia-road-safety-atlas",
+      "categoria": "demo",
+      "descripcion": "Mapa coroplético con slider de año: tasa de homicidios en accidentes de tránsito por 100.000 habitantes, municipio por municipio — nunca el número absoluto solo.",
+      "stack": ["Polars", "Leaflet.js", "GitHub Pages"],
+      "demo_url": "https://colombia-open.github.io/colombia-road-safety-atlas/"
+    },
+    {
+      "titulo": "Veinte años de violencia en cifras",
+      "repo": "colombia-open/colombia-violence-in-numbers",
+      "categoria": "demo",
+      "descripcion": "Pieza de periodismo de datos con scroll sobre homicidios, hurto y lesiones personales por región desde 2003/2010, siempre en tasa per cápita.",
+      "stack": ["Polars", "Observable Plot", "Scrollama.js"],
+      "demo_url": "https://colombia-open.github.io/colombia-violence-in-numbers/"
+    }
+  ]
+}

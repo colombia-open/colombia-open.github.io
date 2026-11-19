@@ -17,6 +17,7 @@ export function SiteFooter() {
           <div className="foot-col">
             <h4>Proyecto</h4>
             <a href="#catalogo">Catálogo</a>
+            <a href="#proyectos">Proyectos</a>
             <a href="#roadmap">Roadmap</a>
             <a href={LIBRARY_URL} target="_blank" rel="noopener">GitHub</a>
           </div>
