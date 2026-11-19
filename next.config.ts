@@ -6,6 +6,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
+  // Con rutas propias además de "/" (ej. /proyectos), GitHub Pages necesita
+  // carpeta + index.html para que la URL "limpia" (sin .html) funcione.
+  trailingSlash: true,
 };
 
 export default nextConfig;

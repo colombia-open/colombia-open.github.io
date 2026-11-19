@@ -32,11 +32,13 @@ export function Proyectos({ proyectos }: { proyectos: ProjectEntry[] }) {
   }, [proyectos]);
 
   return (
-    <section className="band proyectos" id="proyectos">
+    <section className="band proyectos">
       <div className="wrap">
-        <h2>Proyectos</h2>
+        <p className="eyebrow">Comunidad</p>
+        <h1>Proyectos hechos con colombia-open</h1>
         <p className="intro">
-          Demos pequeñas de la comunidad y aplicaciones externas que ya corren sobre el paquete.
+          Demos pequeñas de la comunidad y aplicaciones externas que ya corren sobre el paquete —
+          para que veas qué se puede construir y encuentres a quién preguntarle cómo lo hizo.
         </p>
 
         <div className="proyecto-filters" role="group" aria-label="Filtrar proyectos">

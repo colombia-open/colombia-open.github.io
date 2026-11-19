@@ -7,11 +7,11 @@ import { BrandMark, GithubMark } from "./BrandMark";
 const LIBRARY_URL = "https://github.com/davidcasr/colombia-open";
 
 const NAV_LINKS = [
-  { href: "#catalogo", label: "Catálogo" },
-  { href: "#mcp", label: "MCP" },
-  { href: "#proyectos", label: "Proyectos" },
-  { href: "#roadmap", label: "Roadmap" },
-  { href: "#contribuir", label: "Contribuir" },
+  { href: "/#catalogo", label: "Catálogo" },
+  { href: "/#mcp", label: "MCP" },
+  { href: "/proyectos/", label: "Proyectos" },
+  { href: "/#roadmap", label: "Roadmap" },
+  { href: "/#contribuir", label: "Contribuir" },
   { href: "https://pypi.org/project/colombia-open/", label: "PyPI", external: true },
 ];
 
@@ -24,7 +24,7 @@ export function SiteHeader({ releaseTag, releaseUrl }: { releaseTag: string; rel
         <div className="wrap">
           <nav className="nav">
             <div className="brand-group">
-              <Link className="nav-brand" href="#">
+              <Link className="nav-brand" href="/">
                 <BrandMark />
                 colombia-open
               </Link>
@@ -34,16 +34,17 @@ export function SiteHeader({ releaseTag, releaseUrl }: { releaseTag: string; rel
             </div>
 
             <div className="nav-links">
-              {NAV_LINKS.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noopener" : undefined}
-                >
-                  {link.label}
-                </a>
-              ))}
+              {NAV_LINKS.map((link) =>
+                link.external ? (
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener">
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link key={link.href} href={link.href}>
+                    {link.label}
+                  </Link>
+                )
+              )}
               <a className="nav-github" href={LIBRARY_URL}>
                 <GithubMark />
                 GitHub
@@ -87,17 +88,23 @@ export function SiteHeader({ releaseTag, releaseUrl }: { releaseTag: string; rel
             </button>
           </div>
           <nav className="nav-drawer-links">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                target={link.external ? "_blank" : undefined}
-                rel={link.external ? "noopener" : undefined}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
+                  {link.label}
+                </Link>
+              )
+            )}
             <a href={LIBRARY_URL} onClick={() => setMenuOpen(false)}>
               GitHub
             </a>

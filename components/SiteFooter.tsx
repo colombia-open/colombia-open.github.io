@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BrandMark } from "./BrandMark";
 
 const LIBRARY_URL = "https://github.com/davidcasr/colombia-open";
@@ -8,17 +9,17 @@ export function SiteFooter({ codeLicense }: { codeLicense: string }) {
       <div className="wrap">
         <div className="foot-grid">
           <div className="foot-brand">
-            <a className="foot-logo" href="#">
+            <Link className="foot-logo" href="/">
               <BrandMark />
               colombia-open
-            </a>
+            </Link>
             <p>Datasets públicos de Colombia, curados y normalizados para Python — una fuente a la vez.</p>
           </div>
           <div className="foot-col">
             <h4>Proyecto</h4>
-            <a href="#catalogo">Catálogo</a>
-            <a href="#proyectos">Proyectos</a>
-            <a href="#roadmap">Roadmap</a>
+            <Link href="/#catalogo">Catálogo</Link>
+            <Link href="/proyectos/">Proyectos</Link>
+            <Link href="/#roadmap">Roadmap</Link>
             <a href={LIBRARY_URL} target="_blank" rel="noopener">GitHub</a>
           </div>
           <div className="foot-col">
