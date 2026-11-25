@@ -7,7 +7,8 @@
     "Seguridad y convivencia",
     "Infraestructura",
     "Economía",
-    "Medio ambiente"
+    "Medio ambiente",
+    "Salud"
   ],
   "datasets": {
     "departamentos": {
@@ -65,6 +66,10 @@
     "calidad_aire": {
       "titulo": "Calidad del aire",
       "grupo": "Medio ambiente"
+    },
+    "rethus": {
+      "titulo": "Talento humano en salud",
+      "grupo": "Salud"
     }
   }
 }
