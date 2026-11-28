@@ -100,8 +100,9 @@
     },
     {
       "dominio": "Agro (EVA)",
-      "fuente": "MinAgricultura / UPRA",
-      "estado": "Pendiente"
+      "datasets": [
+        "agro_eva"
+      ]
     },
     {
       "dominio": "Contratación pública (SECOP II)",

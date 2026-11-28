@@ -8,7 +8,8 @@
     "Infraestructura",
     "Economía",
     "Medio ambiente",
-    "Salud"
+    "Salud",
+    "Agro"
   ],
   "datasets": {
     "departamentos": {
@@ -70,6 +71,10 @@
     "rethus": {
       "titulo": "Talento humano en salud",
       "grupo": "Salud"
+    },
+    "agro_eva": {
+      "titulo": "Producción agrícola municipal (EVA)",
+      "grupo": "Agro"
     }
   }
 }
